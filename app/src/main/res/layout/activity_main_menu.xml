@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainMenu">
+    tools:context=".MainMenu"
+    android:background="@drawable/background-pattern">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/main_menu_play"
