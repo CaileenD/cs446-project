@@ -10,4 +10,5 @@
     <!--main menu-->
     <string name="main_menu_play">PLAY</string>
     <string name="dummy_content">Tonality</string>
+    <string name="playbutton">Play</string>
 </resources>

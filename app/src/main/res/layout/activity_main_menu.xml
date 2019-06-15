@@ -39,6 +39,7 @@
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
         android:text="@string/main_menu_play"
+        android:onClick="startGame"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
         android:textColor="@color/black_overlay" />
 
