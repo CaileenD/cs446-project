@@ -153,7 +153,7 @@ public class HomepageActivity extends AppCompatActivity {
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
-    public void sendMessage(View view)
+    public void startGame(View view)
     {
         Intent intent = new Intent(HomepageActivity.this, MainGameActivity.class);
         startActivity(intent);
