@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -12,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameView extends View {
 
@@ -20,6 +22,8 @@ public class GameView extends View {
     private Paint magenta, green;        // TODO: These colours are hideous so change them
     private int buttonRadius, buttonHeight;    // TODO: Remove when we change buttons to circles
     private AudioSoundPlayer soundPlayer;
+    public noteCountDownTimer countDown; // Counts how long user has to select note
+    private long secondsLeft; // Shows user how many seconds are left to select the note
 
     public GameView(Context context, AttributeSet attrs){
         super(context, attrs);
@@ -28,6 +32,21 @@ public class GameView extends View {
         green = new Paint();
         green.setColor(Color.GREEN);
         soundPlayer = new AudioSoundPlayer(context);
+        init(context);
+    }
+
+    private void init(Context context){
+        //Toast.makeText(getContext(), "This is my Toast message!",
+         //       Toast.LENGTH_LONG).show();
+        playRandomNote();
+        //countDown = new noteCountDownTimer(10000, 1000); // 10 second timer
+
+    }
+
+    protected void playRandomNote(){
+        final int min = 1;
+        final int random = new Random().nextInt((numButtons - min) + 1) + min;
+        soundPlayer.playNote(random);
     }
 
     @Override
@@ -47,6 +66,21 @@ public class GameView extends View {
             scaleNotes.add(new noteButton(rect, i+1));
         }
 
+    }
+
+    public class noteCountDownTimer extends CountDownTimer {
+        public noteCountDownTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+        @Override
+        public void onFinish() {
+            // TODO: Game over or lose a point code goes here
+        }
+        @Override
+        public void onTick(long millisUntilFinished) {
+            secondsLeft = millisUntilFinished / 1000;
+            // TODO: Update screen with seconds remaining
+        }
     }
 
     // Draw the buttons on the screen
@@ -119,4 +153,5 @@ public class GameView extends View {
             requestLayout();
         }
     };
+
 }
