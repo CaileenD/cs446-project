@@ -10,6 +10,7 @@
     android:background="@drawable/background_pattern">
 
     <ca.uwaterloo.tonality.GameView
+        android:id="@+id/gameview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

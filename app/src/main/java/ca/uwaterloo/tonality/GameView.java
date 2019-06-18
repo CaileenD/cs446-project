@@ -24,6 +24,9 @@ public class GameView extends View {
     private AudioSoundPlayer soundPlayer;
     public noteCountDownTimer countDown; // Counts how long user has to select note
     private long secondsLeft; // Shows user how many seconds are left to select the note
+    private boolean gameOver = false;
+    private int rightGuesses = 0;
+    private int wrongGuesses = 0;
 
     public GameView(Context context, AttributeSet attrs){
         super(context, attrs);
@@ -35,11 +38,10 @@ public class GameView extends View {
         init(context);
     }
 
-    private void init(Context context){
-        //Toast.makeText(getContext(), "This is my Toast message!",
-         //       Toast.LENGTH_LONG).show();
+    public void init(Context context){
+        countDown = new noteCountDownTimer(10000, 1000); // 10 second timer
         playRandomNote();
-        //countDown = new noteCountDownTimer(10000, 1000); // 10 second timer
+        countDown.start();
 
     }
 
@@ -75,6 +77,12 @@ public class GameView extends View {
         @Override
         public void onFinish() {
             // TODO: Game over or lose a point code goes here
+            wrongGuesses++;
+            if(wrongGuesses < 5){
+                resetTimer();
+            } else {
+                gameOver = true;
+            }
         }
         @Override
         public void onTick(long millisUntilFinished) {
@@ -114,6 +122,7 @@ public class GameView extends View {
                 if (!soundPlayer.isNotePlaying(k.sound)) {
                     soundPlayer.playNote(k.sound);
                     requestLayout();   // calls onDraw() again
+                    resetTimer();
                 } else {
                     releaseKey(k);
                 }
@@ -124,6 +133,18 @@ public class GameView extends View {
         }
 
         return true;
+    }
+
+    private void resetTimer(){
+        countDown.cancel();
+        try{
+            Thread.sleep(2000);
+        } catch(Exception e){
+            // Do nothing
+        }
+        playRandomNote();
+        countDown = new noteCountDownTimer(10000, 1000);
+        countDown.start();
     }
 
     private noteButton keyForCoords(float x, float y) {
