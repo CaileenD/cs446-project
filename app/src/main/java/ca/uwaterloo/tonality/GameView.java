@@ -11,6 +11,7 @@ import android.os.Message;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -25,8 +26,10 @@ public class GameView extends View {
     public noteCountDownTimer countDown; // Counts how long user has to select note
     private long secondsLeft; // Shows user how many seconds are left to select the note
     private boolean gameOver = false;
+    private boolean gameWon = false;
     private int rightGuesses = 0;
     private int wrongGuesses = 0;
+    private int currentRandomNote = 0;
 
     public GameView(Context context, AttributeSet attrs){
         super(context, attrs);
@@ -47,8 +50,8 @@ public class GameView extends View {
 
     protected void playRandomNote(){
         final int min = 1;
-        final int random = new Random().nextInt((numButtons - min) + 1) + min;
-        soundPlayer.playNote(random);
+        currentRandomNote = new Random().nextInt((numButtons - min) + 1) + min;
+        soundPlayer.playNote(currentRandomNote);
     }
 
     @Override
@@ -121,7 +124,8 @@ public class GameView extends View {
             if (k.pressed) {
                 if (!soundPlayer.isNotePlaying(k.sound)) {
                     soundPlayer.playNote(k.sound);
-                    requestLayout();   // calls onDraw() again
+                    requestLayout();    // calls onDraw() again
+                    checkUserNote(k);    // see if user selected correct note
                     resetTimer();
                 } else {
                     releaseKey(k);
@@ -132,7 +136,31 @@ public class GameView extends View {
             }
         }
 
+        if(gameOver){
+            Toast.makeText(getContext(), "You lose!", Toast.LENGTH_LONG).show();
+        }
+
+        if(gameWon){
+            Toast.makeText(getContext(), "You win!", Toast.LENGTH_LONG).show();
+        }
+
         return true;
+    }
+
+    private void checkUserNote(noteButton k){
+        if(k.sound == currentRandomNote){
+            rightGuesses++;
+            Toast.makeText(getContext(), "Right guess: " + rightGuesses, Toast.LENGTH_LONG).show();
+            if(rightGuesses >= 5){
+                gameWon = true;
+            }
+        } else {
+            wrongGuesses++;
+            if(wrongGuesses >= 5 ){
+                gameOver = true;
+            }
+            Toast.makeText(getContext(), "Wrong guess: " + wrongGuesses, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void resetTimer(){
