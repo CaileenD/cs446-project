@@ -38,10 +38,10 @@ public class GameView extends View {
         green = new Paint();
         green.setColor(Color.GREEN);
         soundPlayer = new AudioSoundPlayer(context);
-        init(context);
+        init();
     }
 
-    public void init(Context context){
+    public void init(){
         countDown = new noteCountDownTimer(10000, 1000); // 10 second timer
         playRandomNote();
         countDown.start();
@@ -138,10 +138,12 @@ public class GameView extends View {
 
         if(gameOver){
             Toast.makeText(getContext(), "You lose!", Toast.LENGTH_LONG).show();
+            //TODO: Create new activity for game over
         }
 
         if(gameWon){
             Toast.makeText(getContext(), "You win!", Toast.LENGTH_LONG).show();
+            //TODO: Create new activity for winning the game
         }
 
         return true;
