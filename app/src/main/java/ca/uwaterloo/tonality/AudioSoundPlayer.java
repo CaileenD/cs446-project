@@ -35,11 +35,12 @@ public class AudioSoundPlayer {
     }
 
     public void playNote(int note) {
-        if (!isNotePlaying(note)) {
-            PlayThread thread = new PlayThread(note);
-            thread.start();
-            threadMap.put(note, thread);
+        if (isNotePlaying(note)) {
+            stopNote(note);
         }
+        PlayThread thread = new PlayThread(note);
+        thread.start();
+        threadMap.put(note, thread);
     }
 
     public void stopNote(int note) {
