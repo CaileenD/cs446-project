@@ -20,4 +20,11 @@
     <string name="note5">5</string>
     <string name="note6">6</string>
     <string name="note7">7</string>
+
+    <!-- for game over/ win screens -->
+    <string name="game_over">Game Over!</string>
+    <string name="win">Level Passed!</string>
+    <string name="tryagain">Try Again</string>
+    <string name="next">Next Level</string>
+    <string name="levelSelect">Home</string>
 </resources>

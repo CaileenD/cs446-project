@@ -1,5 +1,6 @@
 package ca.uwaterloo.tonality;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -32,12 +33,15 @@ public class MainGameActivity extends AppCompatActivity {
     final int min = 1;
     private Random randGenerator = new Random();
     private int currentRandomNote = 0;
+    Dialog popUpDialog;
+
     View.OnClickListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
+        popUpDialog = new Dialog(this);
         countDown = new noteCountDownTimer(10000, 1000); // 10 second timer
         playRandomNote();
         countDown.start();
@@ -83,11 +87,29 @@ public class MainGameActivity extends AppCompatActivity {
         if(gameOver){
             //Toast.makeText(this, "You lose!", Toast.LENGTH_SHORT).show();
             //TODO: Create new activity for game over
+            TextView txt;
+            Button level;
+            popUpDialog.setContentView(R.layout.popup_dialog);
+            txt = (TextView) popUpDialog.findViewById(R.id.popUpText);
+            level = popUpDialog.findViewById(R.id.continueButton);
+            level.setText(getString(R.string.tryagain));
+            txt.setText(getString(R.string.game_over));
+            popUpDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            popUpDialog.show();
         }
 
         if(gameWon){
              //Toast.makeText(this, "You win!", Toast.LENGTH_SHORT).show();
             //TODO: Create new activity for winning the game
+            TextView txt;
+            Button level;
+            popUpDialog.setContentView(R.layout.popup_dialog);
+            level = popUpDialog.findViewById(R.id.continueButton);
+            level.setText(getString(R.string.next));
+            txt = (TextView)popUpDialog.findViewById(R.id.popUpText);
+            txt.setText(getString(R.string.win));
+            popUpDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            popUpDialog.show();
         }
     }
 
@@ -107,6 +129,7 @@ public class MainGameActivity extends AppCompatActivity {
             wrongGuesses++;
             if(wrongGuesses >= 5 ){
                 gameOver = true;
+
             }
             Toast.makeText(this, "Wrong guess: " + wrongGuesses, Toast.LENGTH_LONG).show();
         }
