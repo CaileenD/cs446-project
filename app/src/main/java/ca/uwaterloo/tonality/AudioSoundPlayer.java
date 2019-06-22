@@ -100,7 +100,7 @@ public class AudioSoundPlayer {
                 audioTrack.release();
 
             } catch (Exception e) {
-                Log.e(TAG, "Error occurred in AudioSoundPlayer while playing note!");
+                Log.e(TAG, "Error occurred in AudioSoundPlayer while playing note!" + e.getMessage());
             } finally {
                 if (audioTrack != null) {
                     audioTrack.release();
