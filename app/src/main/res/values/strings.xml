@@ -11,4 +11,17 @@
     <string name="main_menu_play">PLAY</string>
     <string name="dummy_content">Tonality</string>
     <string name="playbutton">Play</string>
+
+    <!--Level Select-->
+    <string name="level_select">LEVEL SELECT</string>
+    <string name="scale_select">Select Scale</string>
+    <string-array name="scales">
+        <item>F Major</item>
+        <item>C Major</item>
+        <item>G Major</item>
+        <item>D Major</item>
+        <item>A Major</item>
+        <item>E Major</item>
+        <item>B Major</item>
+    </string-array>
 </resources>

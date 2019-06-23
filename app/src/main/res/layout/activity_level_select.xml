@@ -4,8 +4,119 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context=".LevelSelectActivity"
     android:background="@drawable/bg_repeat"
-    >
+    tools:context=".LevelSelectActivity">
+
+    <TextView
+        android:id="@+id/LevelSelect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="159dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/level_select"
+        android:textColor="@color/main_pink"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/selectScale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="93dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/scale_select"
+        android:textColor="@color/main_pink"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/scaleSpinner"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="136dp"
+        android:background="@drawable/gradient"
+        android:entries="@array/scales"
+        android:spinnerMode="dropdown"
+        android:textAlignment="center"
+        android:textColor="@color/main_black"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/LevelBubble1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="56dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scaleSpinner"
+        app:srcCompat="@drawable/note_button" />
+
+    <ImageView
+        android:id="@+id/levelNote1"
+        android:layout_width="49dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="8dp"
+        android:clickable="false"
+        android:onClick="onLevelClick"
+        android:tint="@color/main_black"
+        app:layout_constraintBottom_toBottomOf="@+id/LevelBubble1"
+        app:layout_constraintStart_toStartOf="@+id/LevelBubble1"
+        app:layout_constraintTop_toTopOf="@+id/LevelBubble1"
+        app:srcCompat="@drawable/note_icon_1" />
+
+    <ImageView
+        android:id="@+id/levelBubble2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="92dp"
+        android:layout_marginEnd="84dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scaleSpinner"
+        app:srcCompat="@drawable/note_button" />
+
+    <ImageView
+        android:id="@+id/levelNote2"
+        android:layout_width="49dp"
+        android:layout_height="49dp"
+        android:layout_marginBottom="8dp"
+        android:tint="@color/main_black"
+        app:layout_constraintBottom_toBottomOf="@+id/levelBubble2"
+        app:layout_constraintEnd_toEndOf="@+id/levelBubble2"
+        app:layout_constraintStart_toStartOf="@+id/levelBubble2"
+        app:srcCompat="@drawable/note_icon_2" />
+
+    <ImageView
+        android:id="@+id/levelBubble4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="204dp"
+        android:layout_marginEnd="288dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scaleSpinner"
+        app:srcCompat="@drawable/note_button" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="49dp"
+        android:layout_height="49dp"
+        android:tint="@color/main_black"
+        app:layout_constraintBottom_toBottomOf="@+id/levelBubble4"
+        app:layout_constraintEnd_toEndOf="@+id/levelBubble4"
+        app:layout_constraintStart_toStartOf="@+id/levelBubble4"
+        app:layout_constraintTop_toTopOf="@+id/levelBubble4"
+        app:srcCompat="@drawable/note_icon_3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
