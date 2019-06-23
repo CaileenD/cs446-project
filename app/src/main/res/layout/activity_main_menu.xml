@@ -25,10 +25,9 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/menu_title"
         android:paddingTop="30dp"
-        android:paddingRight="15dp"
-        android:scaleX="2.0"
-        android:scaleY="2.0"
-        android:src="@mipmap/ear_icon"/>
+        android:scaleX="-4.0"
+        android:scaleY="4.0"
+        android:src="@drawable/ear_icon"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/main_menu_play"
