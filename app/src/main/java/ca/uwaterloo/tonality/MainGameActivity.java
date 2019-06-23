@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 
@@ -23,7 +22,6 @@ public class MainGameActivity extends AppCompatActivity {
     private long secondsLeft = startTimeInSecs;
     private AudioSoundPlayer soundPlayer = new AudioSoundPlayer(this);
     public static final int numButtons = 7; // number of note buttons at bottom of screen
-    private ArrayList<noteButton> scaleNotes = new ArrayList<noteButton>();
     public noteCountDownTimer countDown; // Counts how long user has to select note
     private boolean gameOver = false;
     private boolean gameWon = false;
