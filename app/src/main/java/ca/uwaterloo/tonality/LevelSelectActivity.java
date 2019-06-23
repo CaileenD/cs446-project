@@ -41,11 +41,12 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
     }
 
     public void onLevelClick(View view) {
-        switch (view.getId()) {
+        // This will be used to pass in level info depending on which level was selected
+        /*switch (view.getId()) {
             case R.id.levelNote1:
-                Intent intent = new Intent(LevelSelectActivity.this, MainGameActivity.class);
-                startActivity(intent);
                 break;
-        }
+        }*/
+        Intent intent = new Intent(LevelSelectActivity.this, MainGameActivity.class);
+        startActivity(intent);
     }
 }
