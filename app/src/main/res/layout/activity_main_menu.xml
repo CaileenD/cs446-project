@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
     tools:context=".MainMenu"
-    android:background="@drawable/background_pattern">
+    android:background="@drawable/bg_repeat">
 
     <!--android:layout_above="@id/main_menu_play"-->
     <TextView
@@ -14,9 +15,10 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:textSize="@dimen/text_large"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/app_name_caps"
         android:textColor="@color/main_pink"
-        android:text="@string/app_name_caps"/>
+        android:textSize="@dimen/text_large" />
 
     <ImageView
         android:id="@+id/menu_app_icon"
@@ -25,10 +27,9 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/menu_title"
         android:paddingTop="30dp"
-        android:paddingRight="15dp"
-        android:scaleX="2.0"
-        android:scaleY="2.0"
-        android:src="@mipmap/ear_icon"/>
+        android:scaleX="-4.0"
+        android:scaleY="4.0"
+        app:srcCompat="@drawable/ear_icon"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/main_menu_play"
@@ -36,11 +37,12 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@color/main_pink"
+        android:fontFamily="@font/roboto_light"
+        android:onClick="startGame"
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
         android:text="@string/main_menu_play"
-        android:onClick="startGame"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-        android:textColor="@color/black_overlay" />
+        android:textColor="@color/main_black" />
 
 </RelativeLayout>
