@@ -55,7 +55,7 @@ public class AudioSoundPlayer {
                 numloaded++;
                 // Play a random note
                 if(numloaded == 7){
-                    firstRandomNote = new Random().nextInt((7) + 1);
+                    firstRandomNote = new Random().nextInt(7) + 1;
                     playNote(firstRandomNote);
                 }
             }
