@@ -12,6 +12,7 @@
     <string name="dummy_content">Tonality</string>
     <string name="playbutton">Play</string>
 
+
     <!--Level Select-->
     <string name="level_select">LEVEL SELECT</string>
     <string name="scale_select">Select Scale</string>
@@ -24,4 +25,21 @@
         <item>E Major</item>
         <item>B Major</item>
     </string-array>
+
+    <!--for notebuttons-->
+    <string name="note1">1</string>
+    <string name="note2">2</string>
+    <string name="note3">3</string>
+    <string name="note4">4</string>
+    <string name="note5">5</string>
+    <string name="note6">6</string>
+    <string name="note7">7</string>
+
+    <!-- for game over/ win screens -->
+    <string name="game_over">Game Over!</string>
+    <string name="win">Level Passed!</string>
+    <string name="tryagain">Try Again</string>
+    <string name="next">Next Level</string>
+    <string name="levelSelect">Home</string>
+
 </resources>
