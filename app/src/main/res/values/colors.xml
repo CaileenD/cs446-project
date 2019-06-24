@@ -4,8 +4,12 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="black_overlay">#66000000</color>
+    <color name="main_black">#413F3F</color>
 
     <color name="black">#000000</color>
     <color name="main_pink">#EBA4D8</color>
+  
+    <color name="main_purple">#C07FD0</color>
+    <color name="transparent">#80000000</color>
+
 </resources>

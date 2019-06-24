@@ -16,7 +16,7 @@ public class MainMenu extends AppCompatActivity {
 
     public void startGame(View view)
     {
-        Intent intent = new Intent(MainMenu.this, MainGameActivity.class);
+        Intent intent = new Intent(MainMenu.this, LevelSelectActivity.class);
         startActivity(intent);
     }
 }

@@ -1,5 +1,6 @@
 package ca.uwaterloo.tonality;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -30,6 +31,8 @@ public class MainGameActivity extends AppCompatActivity {
     final int min = 1;
     private Random randGenerator = new Random();
     private int currentRandomNote = 0;
+    Dialog popUpDialog;
+
     View.OnClickListener listener;
     Button button1, button2, button3, button4, button5, button6, button7;
 
@@ -38,6 +41,7 @@ public class MainGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
         soundPlayer = new AudioSoundPlayer(this);
+        popUpDialog = new Dialog(this);
         countDown = new noteCountDownTimer(10000, 1000); // 10 second timer
         countDown.start();
         timerDisplay = findViewById(R.id.timer);
@@ -83,12 +87,30 @@ public class MainGameActivity extends AppCompatActivity {
             Toast.makeText(this, "You lose!", Toast.LENGTH_SHORT).show();
             soundPlayer.release();
             //TODO: Create new activity for game over
+            TextView txt;
+            Button level;
+            popUpDialog.setContentView(R.layout.popup_dialog);
+            txt = (TextView) popUpDialog.findViewById(R.id.popUpText);
+            level = popUpDialog.findViewById(R.id.continueButton);
+            level.setText(getString(R.string.tryagain));
+            txt.setText(getString(R.string.game_over));
+            popUpDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            popUpDialog.show();
         }
 
         if(gameWon){
              Toast.makeText(this, "You win!", Toast.LENGTH_SHORT).show();
              soundPlayer.release();
             //TODO: Create new activity for winning the game
+            TextView txt;
+            Button level;
+            popUpDialog.setContentView(R.layout.popup_dialog);
+            level = popUpDialog.findViewById(R.id.continueButton);
+            level.setText(getString(R.string.next));
+            txt = (TextView)popUpDialog.findViewById(R.id.popUpText);
+            txt.setText(getString(R.string.win));
+            popUpDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            popUpDialog.show();
         }
     }
 
@@ -111,6 +133,7 @@ public class MainGameActivity extends AppCompatActivity {
             wrongGuesses++;
             if(wrongGuesses >= 5 ){
                 gameOver = true;
+
             }
             Toast.makeText(this, "Wrong guess: " + wrongGuesses, Toast.LENGTH_LONG).show();
         }
