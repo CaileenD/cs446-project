@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 
@@ -22,9 +21,8 @@ public class MainGameActivity extends AppCompatActivity {
     private static final long startTimeInSecs = 10;
     private TextView timerDisplay;
     private long secondsLeft = startTimeInSecs;
-    private AudioSoundPlayer soundPlayer = new AudioSoundPlayer(this);
+    private AudioSoundPlayer soundPlayer;
     public static final int numButtons = 7; // number of note buttons at bottom of screen
-    private ArrayList<noteButton> scaleNotes = new ArrayList<noteButton>();
     public noteCountDownTimer countDown; // Counts how long user has to select note
     private boolean gameOver = false;
     private boolean gameWon = false;
@@ -36,14 +34,15 @@ public class MainGameActivity extends AppCompatActivity {
     Dialog popUpDialog;
 
     View.OnClickListener listener;
+    Button button1, button2, button3, button4, button5, button6, button7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
+        soundPlayer = new AudioSoundPlayer(this);
         popUpDialog = new Dialog(this);
         countDown = new noteCountDownTimer(10000, 1000); // 10 second timer
-        playRandomNote();
         countDown.start();
         timerDisplay = findViewById(R.id.timer);
 
@@ -55,13 +54,13 @@ public class MainGameActivity extends AppCompatActivity {
         };
 
         // Set the button listeners
-        final Button button1 = findViewById(R.id.button1);
-        final Button button2 = findViewById(R.id.button2);
-        final Button button3 = findViewById(R.id.button3);
-        final Button button4 = findViewById(R.id.button4);
-        final Button button5 = findViewById(R.id.button5);
-        final Button button6 = findViewById(R.id.button6);
-        final Button button7 = findViewById(R.id.button7);
+        button1 = findViewById(R.id.button1);
+        button2 = findViewById(R.id.button2);
+        button3 = findViewById(R.id.button3);
+        button4 = findViewById(R.id.button4);
+        button5 = findViewById(R.id.button5);
+        button6 = findViewById(R.id.button6);
+        button7 = findViewById(R.id.button7);
 
         button1.setOnClickListener(listener);
         button2.setOnClickListener(listener);
@@ -85,7 +84,8 @@ public class MainGameActivity extends AppCompatActivity {
         resetTimer();
 
         if(gameOver){
-            //Toast.makeText(this, "You lose!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You lose!", Toast.LENGTH_SHORT).show();
+            soundPlayer.release();
             //TODO: Create new activity for game over
             TextView txt;
             Button level;
@@ -99,7 +99,8 @@ public class MainGameActivity extends AppCompatActivity {
         }
 
         if(gameWon){
-             //Toast.makeText(this, "You win!", Toast.LENGTH_SHORT).show();
+             Toast.makeText(this, "You win!", Toast.LENGTH_SHORT).show();
+             soundPlayer.release();
             //TODO: Create new activity for winning the game
             TextView txt;
             Button level;
@@ -119,6 +120,9 @@ public class MainGameActivity extends AppCompatActivity {
     }
 
     private void checkUserNote(int playedNote){
+        if(rightGuesses == 0 && wrongGuesses == 0){
+            currentRandomNote = soundPlayer.firstRandomNote;
+        }
         if(playedNote == currentRandomNote){
             rightGuesses++;
             Toast.makeText(this, "Right guess: " + rightGuesses, Toast.LENGTH_LONG).show();
@@ -142,9 +146,12 @@ public class MainGameActivity extends AppCompatActivity {
         } catch(Exception e){
             Log.e(TAG, "Error! " + e.getMessage());
         }
-        playRandomNote();
-        countDown = new noteCountDownTimer(10000, 1000);
-        countDown.start();
+        if(!gameOver && !gameWon){
+            playRandomNote();
+            countDown = new noteCountDownTimer(10000, 1000);
+            countDown.start();
+        }
+
     }
 
     public class noteCountDownTimer extends CountDownTimer {
@@ -166,4 +173,5 @@ public class MainGameActivity extends AppCompatActivity {
             updateCountDownText();
         }
     }
+
 }

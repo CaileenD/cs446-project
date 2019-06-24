@@ -4,60 +4,70 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.AudioAttributes;
-import android.media.AudioFormat;
-import android.media.AudioTrack;
+import android.media.SoundPool;
 import android.util.Log;
 import android.util.SparseArray;
 
-import java.io.InputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class AudioSoundPlayer {
 
+    private static final String SOUND_FOLDER = "sounds";
     private String TAG = "AudioSoundPlayer";
-    private SparseArray<PlayThread> threadMap; // SparseArray is more memory efficient than HashMap
-    private Context context;
-    private static final SparseArray<String> SOUND_MAP = new SparseArray<>();
+    private static List<String> SOUND_MAP = new ArrayList<>();
+    SoundPool soundPool;
+    private AssetManager assetManager = null;
+    private SparseArray<noteSound> soundList = new SparseArray<>();
+    private int numloaded = 0;
+    public int firstRandomNote = 0;
 
     static {
         // C Major scale
-        SOUND_MAP.put(1, "c4");
-        SOUND_MAP.put(2, "d4");
-        SOUND_MAP.put(3, "e4");
-        SOUND_MAP.put(4, "f4");
-        SOUND_MAP.put(5, "g4");
-        SOUND_MAP.put(6, "a4");
-        SOUND_MAP.put(7, "b4");
+        SOUND_MAP.add("c4.wav");
+        SOUND_MAP.add("d4.wav");
+        SOUND_MAP.add("e4.wav");
+        SOUND_MAP.add("f4.wav");
+        SOUND_MAP.add("g4.wav");
+        SOUND_MAP.add("a4.wav");
+        SOUND_MAP.add("b4.wav");
     }
 
-    public AudioSoundPlayer(Context context){
-        this.context = context;
-        threadMap = new SparseArray<>();
+    public AudioSoundPlayer(Context context) {
+        this.assetManager = context.getAssets();
+
+        // Build the SoundPool
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                .setMaxStreams(7)
+                .build();
+
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int mySoundId, int status) {
+                numloaded++;
+                // Play a random note
+                if(numloaded == 7){
+                    firstRandomNote = new Random().nextInt(7) + 1;
+                    playNote(firstRandomNote);
+                }
+            }
+        });
+
+        // Load the note sounds
+        loadSounds();
     }
 
-    public void playNote(int note) {
-        if (isNotePlaying(note)) {
-            stopNote(note);
-        }
-        PlayThread thread = new PlayThread(note);
-        thread.start();
-        threadMap.put(note, thread);
-    }
-
-    public void stopNote(int note) {
-        PlayThread thread = threadMap.get(note);
-
-        if (thread != null) {
-            threadMap.remove(note);
-        }
-    }
-
-    public boolean isNotePlaying(int note) {
-        return threadMap.get(note) != null;
-    }
 
     private class PlayThread extends Thread {
         int note;
-        AudioTrack audioTrack;
 
         public PlayThread(int note) {
             this.note = note;
@@ -65,48 +75,51 @@ public class AudioSoundPlayer {
 
         @Override
         public void run() {
-            try {
-                String path = "sounds/" + SOUND_MAP.get(note) + ".wav";
-                AssetManager assetManager = context.getAssets();
-                AssetFileDescriptor fileDescriptor = assetManager.openFd(path);
-                long fileSize = fileDescriptor.getLength();
-                int bufferSize = 4096;
-                byte[] buffer = new byte[bufferSize];
-                AudioFormat audioFormat = new AudioFormat.Builder()
-                                                .setSampleRate(44100)
-                                                .setChannelMask(AudioFormat.CHANNEL_OUT_MONO)
-                                                .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
-                                                .build();
-
-                audioTrack = new AudioTrack(
-                        new AudioAttributes.Builder()
-                                .setUsage(AudioAttributes.USAGE_MEDIA)
-                                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                                .build(),
-                        audioFormat, bufferSize, AudioTrack.MODE_STREAM, 1);
-
-                audioTrack.play();
-                InputStream audioStream;
-                int headerOffset = 0x2C; long bytesWritten = 0; int bytesRead = 0;
-
-                audioStream = assetManager.open(path);
-                audioStream.read(buffer, 0, headerOffset);
-
-                while (bytesWritten < fileSize - headerOffset) {
-                    bytesRead = audioStream.read(buffer, 0, bufferSize);
-                    bytesWritten += audioTrack.write(buffer, 0, bytesRead);
-                }
-
-                audioTrack.stop();
-                audioTrack.release();
-
-            } catch (Exception e) {
-                Log.e(TAG, "Error occurred in AudioSoundPlayer while playing note!" + e.getMessage());
-            } finally {
-                if (audioTrack != null) {
-                    audioTrack.release();
-                }
-            }
+            soundPool.play(this.note, 1.0f, 1.0f, 1, 0, 1.0f);
         }
     }
+    private void loadSounds(){
+        String[] soundFiles;
+        try {
+            soundFiles = assetManager.list(SOUND_FOLDER);
+            Log.d(TAG, "Fetched " + soundFiles.length + " sound files");
+        } catch (IOException e) {
+            Log.e(TAG, "Error accessing sound folder", e);
+            return;
+        }
+
+        for(String fileName:SOUND_MAP){
+            try {
+                String path = SOUND_FOLDER + "/" + fileName;
+                noteSound note = new noteSound(path);
+                int noteID = load(note);
+                soundList.put(noteID, note);
+            } catch (IOException e) {
+                Log.e(TAG, "Could not load sound: " + fileName, e);
+            }
+        }
+
+    }
+
+    private int load(noteSound note) throws IOException {
+        AssetFileDescriptor fileDescriptor = assetManager.openFd(note.getPathName());
+        int soundId = soundPool.load(fileDescriptor, 1);
+        note.setId(soundId);
+        return soundId;
+    }
+
+    public void playNote(int note){
+        PlayThread playThread = new PlayThread(note);
+        playThread.start();
+    }
+
+    public void release(){
+        Log.d(TAG, "Cleaning resources..");
+        soundPool.release();
+    }
+
+    public SparseArray<noteSound> getSounds() {
+        return this.soundList;
+    }
+
 }
