@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="127.312" height="41.938" viewBox="0 0 127.312 41.938">
+  <defs>
+    <style>
+      .cls-1 {
+        fill-rule: evenodd;
+        fill: url(#linear-gradient);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="807.5" y1="376.469" x2="807.5" y2="334.531" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#eba4d8"/>
+      <stop offset="1" stop-color="#c07fd0"/>
+    </linearGradient>
+  </defs>
+  <path id="Link_Up_Lines" data-name="Link Up Lines" class="cls-1" d="M743.846,335.476l0.308-.952,127,41-0.308.952Z" transform="translate(-743.844 -334.531)"/>
+</svg>
