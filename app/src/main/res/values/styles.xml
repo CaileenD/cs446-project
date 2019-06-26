@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="@style/Theme.Design.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/main_pink</item>
         <item name="colorPrimaryDark">@color/main_pink</item>
