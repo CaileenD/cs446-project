@@ -6,7 +6,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainMenu extends AppCompatActivity {
+public class MainMenuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +16,7 @@ public class MainMenu extends AppCompatActivity {
 
     public void startGame(View view)
     {
-        Intent intent = new Intent(MainMenu.this, LevelSelectActivity.class);
+        Intent intent = new Intent(MainMenuActivity.this, LevelSelectActivity.class);
         startActivity(intent);
     }
 }
