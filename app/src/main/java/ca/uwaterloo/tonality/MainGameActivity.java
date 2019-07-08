@@ -1,6 +1,7 @@
 package ca.uwaterloo.tonality;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -40,7 +41,10 @@ public class MainGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
-        soundPlayer = new AudioSoundPlayer(this);
+        Intent intent = this.getIntent();
+        String selectedScale = intent.getStringExtra("selectedScale");
+
+        soundPlayer = new AudioSoundPlayer(this, selectedScale);
         popUpDialog = new Dialog(this);
         countDown = new noteCountDownTimer(10000, 1000); // 10 second timer
         countDown.start();
@@ -168,6 +172,17 @@ public class MainGameActivity extends AppCompatActivity {
             secondsLeft = timeLeftInMilliSecs/1000;
             updateCountDownText();
         }
+    }
+
+    public void restartLevel(View view)
+    {
+        MainGameActivity.this.recreate();
+    }
+
+    public void mainMenu(View view){
+        Intent intent = new Intent(MainGameActivity.this, MainMenuActivity.class);
+        finish();
+        startActivity(intent);
     }
 
 }

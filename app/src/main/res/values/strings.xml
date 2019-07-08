@@ -17,13 +17,31 @@
     <string name="level_select">LEVEL SELECT</string>
     <string name="scale_select">Select Scale</string>
     <string-array name="scales">
-        <item>F Major</item>
         <item>C Major</item>
+        <item>A Minor</item>
+        <item>F Major</item>
+        <item>D Minor</item>
         <item>G Major</item>
+        <item>E Minor</item>
+        <item>A# Major</item>
+        <item>G Minor</item>
         <item>D Major</item>
+        <item>B Minor</item>
+        <item>D# Major</item>
+        <item>C Minor</item>
         <item>A Major</item>
+        <item>F# Minor</item>
+        <item>F Minor</item>
         <item>E Major</item>
+        <item>C# Minor</item>
         <item>B Major</item>
+        <item>G# Minor</item>
+        <item>F# Major</item>
+        <item>D# Minor</item>
+        <item>C# Major</item>
+        <item>A# Minor</item>
+        <item>G# Major</item>
+        <item>E# Minor</item>
     </string-array>
 
     <!--for notebuttons-->

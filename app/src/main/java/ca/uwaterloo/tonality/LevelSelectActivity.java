@@ -1,7 +1,5 @@
 package ca.uwaterloo.tonality;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +8,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class LevelSelectActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
+    String selectedScale = "C Major"; // default value
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String scale = adapterView.getItemAtPosition(i).toString();
+        selectedScale = scale;
         Toast.makeText(adapterView.getContext(), scale, Toast.LENGTH_SHORT).show();
     }
 
@@ -47,6 +50,7 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
                 break;
         }*/
         Intent intent = new Intent(LevelSelectActivity.this, MainGameActivity.class);
+        intent.putExtra("selectedScale", selectedScale);
         startActivity(intent);
     }
 }
