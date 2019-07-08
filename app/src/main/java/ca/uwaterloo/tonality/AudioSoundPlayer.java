@@ -24,19 +24,9 @@ public class AudioSoundPlayer {
     private int numloaded = 0;
     public int firstRandomNote = 0;
 
-    static {
-        // C Major scale
-        SOUND_MAP.add("c4.wav");
-        SOUND_MAP.add("d4.wav");
-        SOUND_MAP.add("e4.wav");
-        SOUND_MAP.add("f4.wav");
-        SOUND_MAP.add("g4.wav");
-        SOUND_MAP.add("a4.wav");
-        SOUND_MAP.add("b4.wav");
-    }
-
-    public AudioSoundPlayer(Context context) {
+    public AudioSoundPlayer(Context context, String selectedScale) {
         this.assetManager = context.getAssets();
+        SOUND_MAP = ScaleBuilder.buildScale(selectedScale);
 
         // Build the SoundPool
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
