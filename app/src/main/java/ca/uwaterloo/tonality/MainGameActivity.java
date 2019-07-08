@@ -84,9 +84,7 @@ public class MainGameActivity extends AppCompatActivity {
         resetTimer();
 
         if(gameOver){
-            Toast.makeText(this, "You lose!", Toast.LENGTH_SHORT).show();
             soundPlayer.release();
-            //TODO: Create new activity for game over
             TextView txt;
             Button level;
             popUpDialog.setContentView(R.layout.popup_dialog);
@@ -99,9 +97,7 @@ public class MainGameActivity extends AppCompatActivity {
         }
 
         if(gameWon){
-             Toast.makeText(this, "You win!", Toast.LENGTH_SHORT).show();
-             soundPlayer.release();
-            //TODO: Create new activity for winning the game
+            soundPlayer.release();
             TextView txt;
             Button level;
             popUpDialog.setContentView(R.layout.popup_dialog);
