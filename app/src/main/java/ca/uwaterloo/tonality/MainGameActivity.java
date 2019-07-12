@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
 import java.util.Random;
+import java.util.Vector;
 
 public class MainGameActivity extends AppCompatActivity {
 
@@ -35,7 +36,7 @@ public class MainGameActivity extends AppCompatActivity {
     Dialog popUpDialog;
 
     View.OnClickListener listener;
-    Button button1, button2, button3, button4, button5, button6, button7;
+    Vector<Button> noteButtons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class MainGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_game);
         Intent intent = this.getIntent();
         String selectedScale = intent.getStringExtra("selectedScale");
-
+        String [] scaleNotes = intent.getStringArrayExtra("scaleNotes");
         soundPlayer = new AudioSoundPlayer(this, selectedScale);
         popUpDialog = new Dialog(this);
         countDown = new noteCountDownTimer(10000, 1000); // 10 second timer
@@ -57,23 +58,15 @@ public class MainGameActivity extends AppCompatActivity {
             }
         };
 
-        // Set the button listeners
-        button1 = findViewById(R.id.button1);
-        button2 = findViewById(R.id.button2);
-        button3 = findViewById(R.id.button3);
-        button4 = findViewById(R.id.button4);
-        button5 = findViewById(R.id.button5);
-        button6 = findViewById(R.id.button6);
-        button7 = findViewById(R.id.button7);
+        noteButtons = new Vector<>();
 
-        button1.setOnClickListener(listener);
-        button2.setOnClickListener(listener);
-        button3.setOnClickListener(listener);
-        button4.setOnClickListener(listener);
-        button5.setOnClickListener(listener);
-        button6.setOnClickListener(listener);
-        button7.setOnClickListener(listener);
-
+        for (int i=0; i<7; i++) {
+            int resID = getResources().getIdentifier("button" + (i + 1), "id", getPackageName());
+            Button currentButton = findViewById(resID);
+            currentButton.setOnClickListener(listener);
+            currentButton.setText(scaleNotes[i]);
+            noteButtons.add(currentButton);
+        }
     }
 
     private void updateCountDownText(){
