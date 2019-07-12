@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,12 +30,6 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
         spinner.setOnItemSelectedListener(this);
     }
 
-    private String[] getStringArrayResourceByName(String name) {
-        String packageName = getPackageName();
-        int resId = getResources().getIdentifier(name, "array", packageName);
-        return getResources().getStringArray(resId);
-    }
-
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String scale = adapterView.getItemAtPosition(i).toString();
@@ -51,10 +44,8 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
     public void onLevelClick(View view) {
         String levelName = getResources().getResourceEntryName(view.getId());
         int levelDifficulty = Integer.valueOf(levelName.substring(levelName.length()-1)) + 1;
-        String[] scaleNotes = getStringArrayResourceByName(selectedScale.replaceAll("\\s+",""));
         Intent intent = new Intent(LevelSelectActivity.this, MainGameActivity.class);
         intent.putExtra("selectedScale", selectedScale);
-        intent.putExtra("scaleNotes", scaleNotes);
         intent.putExtra("levelDifficulty", levelDifficulty);
         startActivity(intent);
     }

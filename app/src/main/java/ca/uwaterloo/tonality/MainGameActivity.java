@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.Vector;
@@ -24,7 +25,7 @@ public class MainGameActivity extends AppCompatActivity {
     private TextView timerDisplay;
     private long secondsLeft = startTimeInSecs;
     private AudioSoundPlayer soundPlayer;
-    public static final int numButtons = 7; // number of note buttons at bottom of screen
+    public int numActiveButtons; // number of note buttons at bottom of screen
     public noteCountDownTimer countDown; // Counts how long user has to select note
     private boolean gameOver = false;
     private boolean gameWon = false;
@@ -44,9 +45,9 @@ public class MainGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_game);
         Intent intent = this.getIntent();
         String selectedScale = intent.getStringExtra("selectedScale");
-        String [] scaleNotes = intent.getStringArrayExtra("scaleNotes");
-        int levelDifficulty = intent.getIntExtra("levelDifficulty", 1);
-        soundPlayer = new AudioSoundPlayer(this, selectedScale);
+        numActiveButtons = intent.getIntExtra("levelDifficulty", 1);
+        List<String> SOUND_MAP = ScaleBuilder.buildScale(selectedScale);
+        soundPlayer = new AudioSoundPlayer(this, SOUND_MAP, numActiveButtons);
         popUpDialog = new Dialog(this);
         countDown = new noteCountDownTimer(10000, 1000); // 10 second timer
         countDown.start();
@@ -65,8 +66,9 @@ public class MainGameActivity extends AppCompatActivity {
             int resID = getResources().getIdentifier("button" + (i + 1), "id", getPackageName());
             Button currentButton = findViewById(resID);
             currentButton.setOnClickListener(listener);
-            currentButton.setText(scaleNotes[i]);
-            if (i+1>levelDifficulty) {
+            String noteText = SOUND_MAP.get(i).substring(0, SOUND_MAP.get(i).length()-1).toUpperCase();
+            currentButton.setText(noteText);
+            if (i+1>numActiveButtons) {
                 currentButton.setEnabled(false);
                 currentButton.setAlpha(0.3f);
             }
@@ -113,7 +115,7 @@ public class MainGameActivity extends AppCompatActivity {
     }
 
     protected void playRandomNote(){
-        currentRandomNote = randGenerator.nextInt((numButtons - min) + 1) + min;
+        currentRandomNote = randGenerator.nextInt((numActiveButtons - min) + 1) + min;
         soundPlayer.playNote(currentRandomNote);
     }
 

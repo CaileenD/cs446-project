@@ -44,21 +44,6 @@
         <item>E# Minor</item>
     </string-array>
 
-    <!--C Major Scale-->
-    <string-array name="CMajor">
-        <item>C "\u266D"</item>
-        <item>D "\u266D"</item>
-        <item>E "\u266D"</item>
-        <item>F "\u266D"</item>
-        <item>G "\u266D"</item>
-        <item>A "\u266D"</item>
-        <item>B "\u266D"</item>
-    </string-array>
-
-    <!--for unicode sharp and flat symbols-->
-    <string name="sharp">"\u266F"</string>
-    <string name="flat">"\u266D"</string>
-
     <!--for notebuttons-->
     <string name="note1">1</string>
     <string name="note2">2</string>

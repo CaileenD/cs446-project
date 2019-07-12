@@ -19,14 +19,15 @@ public class AudioSoundPlayer {
     private String TAG = "AudioSoundPlayer";
     private static List<String> SOUND_MAP = new ArrayList<>();
     SoundPool soundPool;
-    private AssetManager assetManager = null;
+    private AssetManager assetManager;
     private SparseArray<noteSound> soundList = new SparseArray<>();
     private int numloaded = 0;
     public int firstRandomNote = 0;
 
-    public AudioSoundPlayer(Context context, String selectedScale) {
+    public AudioSoundPlayer(Context context, List<String> SOUND_MAP, final int numActiveNotes) {
         this.assetManager = context.getAssets();
-        SOUND_MAP = ScaleBuilder.buildScale(selectedScale);
+
+        this.SOUND_MAP = SOUND_MAP;
 
         // Build the SoundPool
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
@@ -45,7 +46,7 @@ public class AudioSoundPlayer {
                 numloaded++;
                 // Play a random note
                 if(numloaded == 7){
-                    firstRandomNote = new Random().nextInt(7) + 1;
+                    firstRandomNote = new Random().nextInt(numActiveNotes) + 1;
                     playNote(firstRandomNote);
                 }
             }
@@ -80,7 +81,7 @@ public class AudioSoundPlayer {
 
         for(String fileName:SOUND_MAP){
             try {
-                String path = SOUND_FOLDER + "/" + fileName;
+                String path = SOUND_FOLDER + "/" + fileName + ".wav";
                 noteSound note = new noteSound(path);
                 int noteID = load(note);
                 soundList.put(noteID, note);
