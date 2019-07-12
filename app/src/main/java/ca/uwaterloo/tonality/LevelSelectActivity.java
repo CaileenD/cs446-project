@@ -50,7 +50,7 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
 
     public void onLevelClick(View view) {
         String levelName = getResources().getResourceEntryName(view.getId());
-        int levelDifficulty = Integer.valueOf(levelName.substring(levelName.length()-1));
+        int levelDifficulty = Integer.valueOf(levelName.substring(levelName.length()-1)) + 1;
         String[] scaleNotes = getStringArrayResourceByName(selectedScale.replaceAll("\\s+",""));
         Intent intent = new Intent(LevelSelectActivity.this, MainGameActivity.class);
         intent.putExtra("selectedScale", selectedScale);

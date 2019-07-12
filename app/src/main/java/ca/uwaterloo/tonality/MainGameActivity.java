@@ -45,6 +45,7 @@ public class MainGameActivity extends AppCompatActivity {
         Intent intent = this.getIntent();
         String selectedScale = intent.getStringExtra("selectedScale");
         String [] scaleNotes = intent.getStringArrayExtra("scaleNotes");
+        int levelDifficulty = intent.getIntExtra("levelDifficulty", 1);
         soundPlayer = new AudioSoundPlayer(this, selectedScale);
         popUpDialog = new Dialog(this);
         countDown = new noteCountDownTimer(10000, 1000); // 10 second timer
@@ -65,6 +66,10 @@ public class MainGameActivity extends AppCompatActivity {
             Button currentButton = findViewById(resID);
             currentButton.setOnClickListener(listener);
             currentButton.setText(scaleNotes[i]);
+            if (i+1>levelDifficulty) {
+                currentButton.setEnabled(false);
+                currentButton.setAlpha(0.3f);
+            }
             noteButtons.add(currentButton);
         }
     }
