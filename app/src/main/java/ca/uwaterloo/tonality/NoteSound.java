@@ -1,12 +1,12 @@
 package ca.uwaterloo.tonality;
 
-public class noteSound {
+public class NoteSound {
 
     private String pathName;
     private String fileName;
     private Integer id;
 
-    public noteSound(String pathName){
+    public NoteSound(String pathName){
         this.pathName = pathName;
         String[] splitPath = pathName.split("/");
         this.fileName = splitPath[splitPath.length - 1];
