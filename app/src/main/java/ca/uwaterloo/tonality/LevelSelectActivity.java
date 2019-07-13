@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,7 +34,6 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String scale = adapterView.getItemAtPosition(i).toString();
         selectedScale = scale;
-        Toast.makeText(adapterView.getContext(), scale, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -44,13 +42,11 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
     }
 
     public void onLevelClick(View view) {
-        // This will be used to pass in level info depending on which level was selected
-        /*switch (view.getId()) {
-            case R.id.levelNote1:
-                break;
-        }*/
+        String levelName = getResources().getResourceEntryName(view.getId());
+        int levelDifficulty = Integer.valueOf(levelName.substring(levelName.length()-1)) + 1;
         Intent intent = new Intent(LevelSelectActivity.this, MainGameActivity.class);
         intent.putExtra("selectedScale", selectedScale);
+        intent.putExtra("levelDifficulty", levelDifficulty);
         startActivity(intent);
     }
 }

@@ -12,8 +12,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Vector;
 
 public class MainGameActivity extends AppCompatActivity {
 
@@ -23,7 +25,7 @@ public class MainGameActivity extends AppCompatActivity {
     private TextView timerDisplay;
     private long secondsLeft = startTimeInSecs;
     private AudioSoundPlayer soundPlayer;
-    public static final int numButtons = 7; // number of note buttons at bottom of screen
+    public int numActiveButtons; // number of note buttons at bottom of screen
     public noteCountDownTimer countDown; // Counts how long user has to select note
     private boolean gameOver = false;
     private boolean gameWon = false;
@@ -35,7 +37,7 @@ public class MainGameActivity extends AppCompatActivity {
     Dialog popUpDialog;
 
     View.OnClickListener listener;
-    Button button1, button2, button3, button4, button5, button6, button7;
+    Vector<Button> noteButtons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +45,9 @@ public class MainGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_game);
         Intent intent = this.getIntent();
         String selectedScale = intent.getStringExtra("selectedScale");
-
-        soundPlayer = new AudioSoundPlayer(this, selectedScale);
+        numActiveButtons = intent.getIntExtra("levelDifficulty", 1);
+        List<String> SOUND_MAP = ScaleBuilder.buildScale(selectedScale);
+        soundPlayer = new AudioSoundPlayer(this, SOUND_MAP, numActiveButtons);
         popUpDialog = new Dialog(this);
         countDown = new noteCountDownTimer(10000, 1000); // 10 second timer
         countDown.start();
@@ -57,23 +60,20 @@ public class MainGameActivity extends AppCompatActivity {
             }
         };
 
-        // Set the button listeners
-        button1 = findViewById(R.id.button1);
-        button2 = findViewById(R.id.button2);
-        button3 = findViewById(R.id.button3);
-        button4 = findViewById(R.id.button4);
-        button5 = findViewById(R.id.button5);
-        button6 = findViewById(R.id.button6);
-        button7 = findViewById(R.id.button7);
+        noteButtons = new Vector<>();
 
-        button1.setOnClickListener(listener);
-        button2.setOnClickListener(listener);
-        button3.setOnClickListener(listener);
-        button4.setOnClickListener(listener);
-        button5.setOnClickListener(listener);
-        button6.setOnClickListener(listener);
-        button7.setOnClickListener(listener);
-
+        for (int i=0; i<7; i++) {
+            int resID = getResources().getIdentifier("button" + (i + 1), "id", getPackageName());
+            Button currentButton = findViewById(resID);
+            currentButton.setOnClickListener(listener);
+            String noteText = SOUND_MAP.get(i).substring(0, SOUND_MAP.get(i).length()-1).toUpperCase();
+            currentButton.setText(noteText);
+            if (i+1>numActiveButtons) {
+                currentButton.setEnabled(false);
+                currentButton.setAlpha(0.3f);
+            }
+            noteButtons.add(currentButton);
+        }
     }
 
     private void updateCountDownText(){
@@ -115,7 +115,7 @@ public class MainGameActivity extends AppCompatActivity {
     }
 
     protected void playRandomNote(){
-        currentRandomNote = randGenerator.nextInt((numButtons - min) + 1) + min;
+        currentRandomNote = randGenerator.nextInt((numActiveButtons - min) + 1) + min;
         soundPlayer.playNote(currentRandomNote);
     }
 
