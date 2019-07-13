@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:paddingBottom="15dp"
+    android:id="@+id/PLAY_PARENT"
+    android:background="@drawable/bg_repeat">
+
+    <TextView
+        android:id="@+id/timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="timer"
+        android:shadowColor="@color/main_pink"
+        android:shadowDx="0.0"
+        android:shadowDy="0.0"
+        android:shadowRadius="8"
+        android:textColor="#C07FD0"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:layout_centerInParent="true" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="15dp"
+        android:layout_toLeftOf="@+id/button2"
+        android:background="@drawable/round_button"
+        android:tag="@string/note1"
+        android:text="@string/note1"
+        android:textColor="@color/main_black" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="15dp"
+        android:layout_toLeftOf="@+id/button3"
+        android:background="@drawable/round_button"
+        android:tag="@string/note2"
+        android:text="@string/note2"
+        android:textColor="@color/main_black" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="15dp"
+        android:layout_toLeftOf="@+id/button4"
+        android:background="@drawable/round_button"
+        android:tag="@string/note3"
+        android:text="@string/note3"
+        android:textColor="@color/main_black" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/round_button"
+        android:tag="@string/note4"
+        android:text="@string/note4"
+        android:textColor="@color/main_black" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="15dp"
+        android:layout_toRightOf="@+id/button4"
+        android:background="@drawable/round_button"
+        android:tag="@string/note5"
+        android:text="@string/note5"
+        android:textColor="@color/main_black" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="15dp"
+        android:layout_toRightOf="@+id/button5"
+        android:background="@drawable/round_button"
+        android:tag="@string/note6"
+        android:text="@string/note6"
+        android:textColor="@color/main_black" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="15dp"
+        android:layout_toRightOf="@+id/button6"
+        android:background="@drawable/round_button"
+        android:tag="@string/note7"
+        android:text="@string/note7"
+        android:textColor="@color/main_black" />
+
+</RelativeLayout>
+

@@ -9,5 +9,55 @@
 
     <!--main menu-->
     <string name="main_menu_play">PLAY</string>
+    <string name="dummy_content">Tonality</string>
+    <string name="playbutton">Play</string>
+
+
+    <!--Level Select-->
+    <string name="level_select">LEVEL SELECT</string>
+    <string name="scale_select">Select Scale</string>
+    <string-array name="scales">
+        <item>C Major</item>
+        <item>A Minor</item>
+        <item>F Major</item>
+        <item>D Minor</item>
+        <item>G Major</item>
+        <item>E Minor</item>
+        <item>A# Major</item>
+        <item>G Minor</item>
+        <item>D Major</item>
+        <item>B Minor</item>
+        <item>D# Major</item>
+        <item>C Minor</item>
+        <item>A Major</item>
+        <item>F# Minor</item>
+        <item>F Minor</item>
+        <item>E Major</item>
+        <item>C# Minor</item>
+        <item>B Major</item>
+        <item>G# Minor</item>
+        <item>F# Major</item>
+        <item>D# Minor</item>
+        <item>C# Major</item>
+        <item>A# Minor</item>
+        <item>G# Major</item>
+        <item>E# Minor</item>
+    </string-array>
+
+    <!--for notebuttons-->
+    <string name="note1">1</string>
+    <string name="note2">2</string>
+    <string name="note3">3</string>
+    <string name="note4">4</string>
+    <string name="note5">5</string>
+    <string name="note6">6</string>
+    <string name="note7">7</string>
+
+    <!-- for game over/ win screens -->
+    <string name="game_over">Game Over!</string>
+    <string name="win">Level Passed!</string>
+    <string name="tryagain">Try Again</string>
+    <string name="next">Next Level</string>
+    <string name="levelSelect">Home</string>
 
 </resources>

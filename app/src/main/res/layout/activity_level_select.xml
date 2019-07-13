@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_repeat"
+    tools:context=".LevelSelectActivity">
+
+    <TextView
+        android:id="@+id/LevelSelect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="159dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/level_select"
+        android:textColor="@color/main_pink"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/selectScale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="76dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/scale_select"
+        android:textColor="@color/main_pink"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/scaleSpinner"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="124dp"
+        android:background="@drawable/gradient"
+        android:entries="@array/scales"
+        android:spinnerMode="dropdown"
+        android:textAlignment="center"
+        android:textColor="@color/main_black"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/line1"
+        android:layout_width="174dp"
+        android:layout_height="129dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="8dp"
+        android:alpha="0.05"
+        android:rotation="148"
+        app:layout_constraintEnd_toEndOf="@+id/levelBubble2"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="@+id/LevelBubble1"
+        app:layout_constraintTop_toBottomOf="@+id/scaleSpinner"
+        app:srcCompat="@drawable/level_line" />
+
+    <ImageView
+        android:id="@+id/line2"
+        android:layout_width="223dp"
+        android:layout_height="147dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="104dp"
+        android:layout_marginEnd="8dp"
+        android:alpha="0.05"
+        android:rotation="102"
+        app:layout_constraintEnd_toEndOf="@+id/levelBubble2"
+        app:layout_constraintHorizontal_bias="0.478"
+        app:layout_constraintStart_toStartOf="@+id/levelNote3"
+        app:layout_constraintTop_toBottomOf="@+id/scaleSpinner"
+        app:srcCompat="@drawable/level_line" />
+
+    <ImageView
+        android:id="@+id/line3"
+        android:layout_width="174dp"
+        android:layout_height="129dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="192dp"
+        android:layout_marginEnd="8dp"
+        android:alpha="0.05"
+        android:rotation="150"
+        app:layout_constraintEnd_toEndOf="@+id/levelBubble4"
+        app:layout_constraintStart_toStartOf="@+id/levelBubble3"
+        app:layout_constraintTop_toBottomOf="@+id/scaleSpinner"
+        app:srcCompat="@drawable/level_line" />
+
+    <ImageView
+        android:id="@+id/line4"
+        android:layout_width="227dp"
+        android:layout_height="149dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="260dp"
+        android:layout_marginEnd="8dp"
+        android:alpha="0.05"
+        android:rotation="102"
+        app:layout_constraintEnd_toEndOf="@+id/levelBubble4"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="@+id/levelBubble5"
+        app:layout_constraintTop_toBottomOf="@+id/scaleSpinner"
+        app:srcCompat="@drawable/level_line" />
+
+    <ImageView
+        android:id="@+id/line5"
+        android:layout_width="180dp"
+        android:layout_height="134dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="344dp"
+        android:layout_marginEnd="8dp"
+        android:alpha="0.05"
+        android:rotation="148"
+        app:layout_constraintEnd_toEndOf="@+id/levelBubble6"
+        app:layout_constraintHorizontal_bias="0.478"
+        app:layout_constraintStart_toStartOf="@+id/levelBubble5"
+        app:layout_constraintTop_toBottomOf="@+id/scaleSpinner"
+        app:srcCompat="@drawable/level_line" />
+
+    <ImageView
+        android:id="@+id/LevelBubble1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="48dp"
+        android:alpha="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scaleSpinner"
+        app:srcCompat="@drawable/note_button" />
+
+    <ImageView
+        android:id="@+id/levelNote1"
+        android:layout_width="49dp"
+        android:layout_height="46dp"
+        android:alpha="1"
+        android:clickable="false"
+        android:onClick="onLevelClick"
+        android:tint="@color/main_black"
+        app:layout_constraintBottom_toBottomOf="@+id/LevelBubble1"
+        app:layout_constraintEnd_toEndOf="@+id/LevelBubble1"
+        app:layout_constraintStart_toStartOf="@+id/LevelBubble1"
+        app:layout_constraintTop_toTopOf="@+id/LevelBubble1"
+        app:srcCompat="@drawable/note_icon_1" />
+
+    <ImageView
+        android:id="@+id/levelBubble2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="64dp"
+        android:alpha="0.625"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scaleSpinner"
+        app:srcCompat="@drawable/note_button" />
+
+    <ImageView
+        android:id="@+id/levelNote2"
+        android:layout_width="49dp"
+        android:layout_height="49dp"
+        android:alpha="0.625"
+        android:clickable="true"
+        android:onClick="onLevelClick"
+        android:tint="@color/main_black"
+        app:layout_constraintBottom_toBottomOf="@+id/levelBubble2"
+        app:layout_constraintEnd_toEndOf="@+id/levelBubble2"
+        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintStart_toStartOf="@+id/levelBubble2"
+        app:layout_constraintTop_toTopOf="@+id/levelBubble2"
+        app:layout_constraintVertical_bias="0.636"
+        app:srcCompat="@drawable/note_icon_2" />
+
+    <ImageView
+        android:id="@+id/levelBubble3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="208dp"
+        android:layout_marginEnd="292dp"
+        android:alpha="0.625"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scaleSpinner"
+        app:srcCompat="@drawable/note_button" />
+
+    <ImageView
+        android:id="@+id/levelNote3"
+        android:layout_width="49dp"
+        android:layout_height="49dp"
+        android:layout_marginEnd="8dp"
+        android:alpha="0.625"
+        android:clickable="true"
+        android:onClick="onLevelClick"
+        android:tint="@color/main_black"
+        app:layout_constraintBottom_toBottomOf="@+id/levelBubble3"
+        app:layout_constraintEnd_toEndOf="@+id/levelBubble3"
+        app:layout_constraintTop_toTopOf="@+id/levelBubble3"
+        app:layout_constraintVertical_bias="0.636"
+        app:srcCompat="@drawable/note_icon_3" />
+
+    <ImageView
+        android:id="@+id/levelBubble4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="244dp"
+        android:layout_marginEnd="64dp"
+        android:alpha="0.625"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scaleSpinner"
+        app:srcCompat="@drawable/note_button" />
+
+    <ImageView
+        android:id="@+id/levelNote4"
+        android:layout_width="49dp"
+        android:layout_height="49dp"
+        android:alpha="0.625"
+        android:clickable="true"
+        android:onClick="onLevelClick"
+        android:tint="@color/main_black"
+        app:layout_constraintBottom_toBottomOf="@+id/levelBubble4"
+        app:layout_constraintEnd_toEndOf="@+id/levelBubble4"
+        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintStart_toStartOf="@+id/levelBubble4"
+        app:layout_constraintTop_toTopOf="@+id/levelBubble4"
+        app:layout_constraintVertical_bias="0.636"
+        app:srcCompat="@drawable/note_icon_4" />
+
+    <ImageView
+        android:id="@+id/levelBubble5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="352dp"
+        android:layout_marginEnd="296dp"
+        android:alpha="0.625"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scaleSpinner"
+        app:srcCompat="@drawable/note_button" />
+
+    <ImageView
+        android:id="@+id/levelNote5"
+        android:layout_width="49dp"
+        android:layout_height="49dp"
+        android:alpha="0.625"
+        android:clickable="true"
+        android:onClick="onLevelClick"
+        android:tint="@color/main_black"
+        app:layout_constraintBottom_toBottomOf="@+id/levelBubble5"
+        app:layout_constraintEnd_toEndOf="@+id/levelBubble5"
+        app:layout_constraintStart_toStartOf="@+id/levelBubble5"
+        app:layout_constraintTop_toTopOf="@+id/levelBubble5"
+        app:srcCompat="@drawable/note_icon_5" />
+
+    <ImageView
+        android:id="@+id/levelBubble6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="408dp"
+        android:layout_marginEnd="68dp"
+        android:alpha="0.625"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scaleSpinner"
+        app:srcCompat="@drawable/note_button" />
+
+    <ImageView
+        android:id="@+id/levelNote6"
+        android:layout_width="49dp"
+        android:layout_height="52dp"
+        android:alpha="0.625"
+        android:clickable="true"
+        android:onClick="onLevelClick"
+        android:tint="@color/main_black"
+        app:layout_constraintBottom_toBottomOf="@+id/levelBubble6"
+        app:layout_constraintEnd_toEndOf="@+id/levelBubble6"
+        app:layout_constraintHorizontal_bias="0.363"
+        app:layout_constraintStart_toStartOf="@+id/levelBubble6"
+        app:layout_constraintTop_toTopOf="@+id/levelBubble6"
+        app:srcCompat="@drawable/note_icon_6" />
+
+    <ImageView
+        android:id="@+id/level1EmptyStar1"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="269dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/empty_star" />
+
+    <ImageView
+        android:id="@+id/level1EmptyStar2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="269dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/empty_star" />
+
+    <ImageView
+        android:id="@+id/level1EmptyStar3"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="268dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/empty_star" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

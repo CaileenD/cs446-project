@@ -1,45 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_repeat"
     android:orientation="vertical"
-    tools:context=".MainMenu"
-    android:background="@drawable/background_pattern">
+    tools:context=".MainMenuActivity">
 
     <!--android:layout_above="@id/main_menu_play"-->
     <TextView
         android:id="@+id/menu_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:textSize="@dimen/text_large"
+        android:layout_marginTop="49dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/app_name_caps"
         android:textColor="@color/main_pink"
-        android:text="@string/app_name_caps"/>
+        android:textSize="@dimen/text_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/menu_app_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/menu_title"
-        android:paddingTop="30dp"
-        android:paddingRight="15dp"
-        android:scaleX="2.0"
-        android:scaleY="2.0"
-        android:src="@mipmap/ear_icon"/>
-
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/main_menu_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@color/main_pink"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="340dp"
+        android:background="@drawable/play_button"
+        android:fontFamily="@font/roboto_light"
+        android:onClick="startGame"
+        android:paddingLeft="100dp"
+        android:paddingRight="100dp"
         android:text="@string/main_menu_play"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-        android:textColor="@color/black_overlay" />
+        android:textColor="@color/main_black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</RelativeLayout>
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="118dp"
+        android:layout_height="103dp"
+        android:layout_marginTop="168dp"
+        android:scaleX="-1"
+        android:tint="@color/main_pink"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.525"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ear_icon" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
