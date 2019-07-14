@@ -6,12 +6,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LevelSelectActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     String selectedScale = "C Major"; // default value
+    private PointStorage writer;
+    private TextView points;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +29,12 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
-
         spinner.setOnItemSelectedListener(this);
+
+        points = findViewById(R.id.points);
+
+        writer = PointStorage.getInstance();
+        points.setText(String.valueOf(writer.getScore()));
     }
 
     @Override

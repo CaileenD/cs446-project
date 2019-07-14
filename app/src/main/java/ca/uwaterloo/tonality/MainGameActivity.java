@@ -27,13 +27,12 @@ public class MainGameActivity extends AppCompatActivity {
     private AudioSoundPlayer soundPlayer;
     public int numActiveButtons; // number of note buttons at bottom of screen
     public noteCountDownTimer countDown; // Counts how long user has to select note
-    private boolean gameOver = false;
-    private boolean gameWon = false;
     private int rightGuesses = 0;
     private int wrongGuesses = 0;
     final int min = 1;
     private Random randGenerator = new Random();
     private int currentRandomNote = 0;
+    private long score;
     Dialog popUpDialog;
 
     View.OnClickListener listener;
@@ -46,6 +45,7 @@ public class MainGameActivity extends AppCompatActivity {
         Intent intent = this.getIntent();
         String selectedScale = intent.getStringExtra("selectedScale");
         numActiveButtons = intent.getIntExtra("levelDifficulty", 1);
+        score = numActiveButtons;
         List<String> SOUND_MAP = ScaleBuilder.buildScale(selectedScale);
         soundPlayer = new AudioSoundPlayer(this, SOUND_MAP, numActiveButtons);
         popUpDialog = new Dialog(this);
@@ -66,12 +66,14 @@ public class MainGameActivity extends AppCompatActivity {
             int resID = getResources().getIdentifier("button" + (i + 1), "id", getPackageName());
             Button currentButton = findViewById(resID);
             currentButton.setOnClickListener(listener);
-            String noteText = SOUND_MAP.get(i).substring(0, SOUND_MAP.get(i).length()-1).toUpperCase();
+            String noteText = SOUND_MAP.get(i).substring(0, SOUND_MAP.get(i).length() - 1).toUpperCase();
             currentButton.setText(noteText);
+
             if (i+1>numActiveButtons) {
                 currentButton.setEnabled(false);
                 currentButton.setAlpha(0.3f);
             }
+
             noteButtons.add(currentButton);
         }
     }
@@ -86,32 +88,6 @@ public class MainGameActivity extends AppCompatActivity {
 
         checkUserNote(note);    // see if user selected correct note
         resetTimer();
-
-        if(gameOver){
-            soundPlayer.release();
-            TextView txt;
-            Button level;
-            popUpDialog.setContentView(R.layout.popup_dialog);
-            txt = (TextView) popUpDialog.findViewById(R.id.popUpText);
-            level = popUpDialog.findViewById(R.id.continueButton);
-            level.setText(getString(R.string.tryagain));
-            txt.setText(getString(R.string.game_over));
-            popUpDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            popUpDialog.show();
-        }
-
-        if(gameWon){
-            soundPlayer.release();
-            TextView txt;
-            Button level;
-            popUpDialog.setContentView(R.layout.popup_dialog);
-            level = popUpDialog.findViewById(R.id.continueButton);
-            level.setText(getString(R.string.next));
-            txt = (TextView)popUpDialog.findViewById(R.id.popUpText);
-            txt.setText(getString(R.string.win));
-            popUpDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            popUpDialog.show();
-        }
     }
 
     protected void playRandomNote(){
@@ -127,13 +103,13 @@ public class MainGameActivity extends AppCompatActivity {
             rightGuesses++;
             Toast.makeText(this, "Right guess: " + rightGuesses, Toast.LENGTH_LONG).show();
             if(rightGuesses >= 5){
-                gameWon = true;
+                gameWon();
             }
         } else {
             wrongGuesses++;
+            score--;
             if(wrongGuesses >= 5 ){
-                gameOver = true;
-
+                gameOver();
             }
             Toast.makeText(this, "Wrong guess: " + wrongGuesses, Toast.LENGTH_LONG).show();
         }
@@ -141,17 +117,16 @@ public class MainGameActivity extends AppCompatActivity {
 
     private void resetTimer(){
         countDown.cancel();
+
         try{
             Thread.sleep(2000); // Have a pause between playing user note and next random note
         } catch(Exception e){
             Log.e(TAG, "Error! " + e.getMessage());
         }
-        if(!gameOver && !gameWon){
-            playRandomNote();
-            countDown = new noteCountDownTimer(10000, 1000);
-            countDown.start();
-        }
 
+        playRandomNote();
+        countDown = new noteCountDownTimer(10000, 1000);
+        countDown.start();
     }
 
     public class noteCountDownTimer extends CountDownTimer {
@@ -164,7 +139,7 @@ public class MainGameActivity extends AppCompatActivity {
             if(wrongGuesses < 5){
                 resetTimer();
             } else {
-                gameOver = true;
+                gameOver();
             }
         }
         @Override
@@ -183,6 +158,47 @@ public class MainGameActivity extends AppCompatActivity {
         Intent intent = new Intent(MainGameActivity.this, MainMenuActivity.class);
         finish();
         startActivity(intent);
+    }
+
+    private void endScreen (boolean win) {
+        countDown.cancel();
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            Log.e(TAG, "Error! " + e.getMessage());
+        }
+
+        soundPlayer.release();
+        TextView txt;
+        Button level;
+
+        popUpDialog.setContentView(R.layout.popup_dialog);
+
+        level = popUpDialog.findViewById(R.id.continueButton);
+        level.setText(getString(R.string.next));
+
+        String s = win? getString(R.string.win) : getString(R.string.game_over);
+        txt = popUpDialog.findViewById(R.id.popUpText);
+        txt.setText(s);
+
+        score = Math.max(1, score);
+        saveScore();
+
+        popUpDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        popUpDialog.show();
+    }
+
+    private void gameWon() {
+        endScreen(true);
+    }
+
+    private void gameOver() {
+        endScreen(false);
+    }
+
+    public void saveScore() {
+        PointStorage.getInstance().incrementScore(score);
     }
 
 }

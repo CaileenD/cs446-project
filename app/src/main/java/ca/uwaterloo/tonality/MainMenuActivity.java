@@ -14,9 +14,9 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
     }
 
-    public void startGame(View view)
-    {
+    public void startGame(View view) {
         Intent intent = new Intent(MainMenuActivity.this, LevelSelectActivity.class);
+        PointStorage.init(getApplicationContext());
         startActivity(intent);
     }
 }
