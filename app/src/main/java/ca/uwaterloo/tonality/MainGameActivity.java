@@ -20,7 +20,6 @@ import java.util.Vector;
 public class MainGameActivity extends AppCompatActivity {
 
     private String TAG = "MainGameActivity";
-    private final static int scoreMultiplier = 100;
 
     private static final long startTimeInSecs = 10;
     private TextView timerDisplay;
@@ -161,37 +160,45 @@ public class MainGameActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void gameWon() {
+    private void endScreen (boolean win) {
         countDown.cancel();
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            Log.e(TAG, "Error! " + e.getMessage());
+        }
+
         soundPlayer.release();
         TextView txt;
         Button level;
+
         popUpDialog.setContentView(R.layout.popup_dialog);
+
         level = popUpDialog.findViewById(R.id.continueButton);
         level.setText(getString(R.string.next));
-        txt = (TextView)popUpDialog.findViewById(R.id.popUpText);
-        txt.setText(getString(R.string.win));
+
+        String s = win? getString(R.string.win) : getString(R.string.game_over);
+        txt = popUpDialog.findViewById(R.id.popUpText);
+        txt.setText(s);
+
+        score = Math.max(1, score);
+        saveScore();
+
         popUpDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         popUpDialog.show();
     }
 
-    public void gameOver() {
-        countDown.cancel();
-        soundPlayer.release();
-        TextView txt;
-        Button level;
+    private void gameWon() {
+        endScreen(true);
+    }
 
-        popUpDialog.setContentView(R.layout.popup_dialog);
-        txt = (TextView) popUpDialog.findViewById(R.id.popUpText);
-        level = popUpDialog.findViewById(R.id.continueButton);
-        level.setText(getString(R.string.tryagain));
-        txt.setText(getString(R.string.game_over));
+    private void gameOver() {
+        endScreen(false);
+    }
 
-        score = Math.max(1, score);
-
-
-        popUpDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        popUpDialog.show();
+    public void saveScore() {
+        PointStorage.getInstance().incrementScore(score);
     }
 
 }
