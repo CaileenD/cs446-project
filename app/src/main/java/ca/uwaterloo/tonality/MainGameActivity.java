@@ -182,7 +182,7 @@ public class MainGameActivity extends AppCompatActivity {
         txt = popUpDialog.findViewById(R.id.popUpText);
         txt.setText(s);
 
-        score = Math.max(1, score);
+        score = (win)? Math.max(1, score) : 0;
         saveScore();
 
         popUpDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);

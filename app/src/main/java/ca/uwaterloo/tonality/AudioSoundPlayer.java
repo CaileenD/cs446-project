@@ -69,6 +69,7 @@ public class AudioSoundPlayer {
             soundPool.play(this.note, 1.0f, 1.0f, 1, 0, 1.0f);
         }
     }
+
     private void loadSounds(){
         String[] soundFiles;
         try {
