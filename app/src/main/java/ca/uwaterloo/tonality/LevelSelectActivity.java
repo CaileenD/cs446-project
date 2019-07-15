@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 public class LevelSelectActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     String selectedScale = "C Major"; // default value
-    private PointStorage writer;
     private TextView points;
 
     @Override
@@ -32,9 +31,7 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
         spinner.setOnItemSelectedListener(this);
 
         points = findViewById(R.id.points);
-
-        writer = PointStorage.getInstance();
-        points.setText(String.valueOf(writer.getScore()));
+        points.setText(String.valueOf(PointStorage.getInstance().getScore()));
     }
 
     @Override
