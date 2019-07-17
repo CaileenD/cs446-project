@@ -24,6 +24,17 @@ public class PointStorage {
         pref = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
+    public void store(String scale, String level, boolean completed) {
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean(scale + ":" + level, completed);
+        editor.apply();
+    }
+
+    public boolean load(String scale, String level) {
+        return pref.getBoolean(key, false);
+    }
+
+
     public void incrementScore(long score) {
         SharedPreferences.Editor editor = pref.edit();
         editor.putLong(key, getScore() + score);
