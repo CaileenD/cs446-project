@@ -43,8 +43,16 @@ public class MainGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
         Intent intent = this.getIntent();
+        // Set up ui text
         String selectedScale = intent.getStringExtra("selectedScale");
-        numActiveButtons = intent.getIntExtra("levelDifficulty", 1);
+        Integer levelDifficulty = intent.getIntExtra("levelDifficulty", 1);
+        TextView scaleInfo = findViewById(R.id.scaleInfo);
+        scaleInfo.setText(selectedScale.toUpperCase());
+        TextView levelInfo = findViewById(R.id.levelInfo);
+        levelInfo.setText("LEVEL" + (levelDifficulty - 1));
+
+        // Set up game related things
+        numActiveButtons = levelDifficulty;
         score = numActiveButtons;
         List<String> SOUND_MAP = ScaleBuilder.buildScale(selectedScale);
         soundPlayer = new AudioSoundPlayer(this, SOUND_MAP, numActiveButtons);
