@@ -12,4 +12,11 @@
     <color name="main_purple">#C07FD0</color>
     <color name="transparent">#80000000</color>
 
+    <!--Health Colours-->
+    <color name="userNoteHealth">#5BB16F</color>
+    <color name="userHeartHealth">#3A7747</color>
+    <color name="CPUNoteHealth">#D07FA0</color>
+    <color name="CPUHeartHealth">#9C4D53</color>
+
+
 </resources>
