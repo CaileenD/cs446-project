@@ -1,5 +1,6 @@
 package ca.uwaterloo.tonality;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.media.Image;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -147,6 +149,8 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
         playerHealthIcons = getImageViewsForHealth(playerHealth);
         cpuHealthIcons = getImageViewsForHealth(CPUHealth);
 
+        playerHealth.resetHealth(health);
+        CPUHealth.resetHealth(health);
     }
 
     @Override
@@ -293,7 +297,16 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
         saveScore();
 
         popUpDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        popUpDialog.show();
+        if(!((Activity) this).isFinishing())
+        {
+            try {
+                popUpDialog.show();
+            }
+            catch (WindowManager.BadTokenException e) {
+                //use a log message
+            }
+        }
+
     }
 
     private List<ImageView> getImageViewsForHealth(Observable observable) {

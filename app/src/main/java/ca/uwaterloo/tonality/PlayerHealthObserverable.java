@@ -28,4 +28,8 @@ public class PlayerHealthObserverable extends Observable {
     public void incrementUserHealth(int amount){
         health += amount;
     }
+
+    public void resetHealth(int amount){
+        health = amount;
+    }
 }
