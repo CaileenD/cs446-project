@@ -45,6 +45,7 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
     private PlayerHealthObserverable playerHealth;
     private CPUHealthObservable CPUHealth;
     private List<ImageView> playerHealthIcons;
+    private List<ImageView> cpuHealthIcons;
     Animation myFadeOutAnimation;
 
 
@@ -76,7 +77,8 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
         myFadeOutAnimation = AnimationUtils.loadAnimation(this, R.anim.fadeout);
 
         // Fill up the Image view for the player health icons
-        playerHealthIcons = getImageViewsForPlayerHealth();
+        playerHealthIcons = getImageViewsForHealth(playerHealth);
+        cpuHealthIcons = getImageViewsForHealth(CPUHealth);
 
         // Set up game related things
         numActiveButtons = levelDifficulty;
@@ -103,12 +105,10 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
             currentButton.setOnClickListener(listener);
             String noteText = SOUND_MAP.get(i).substring(0, SOUND_MAP.get(i).length() - 1).toUpperCase();
             currentButton.setText(noteText);
-
             if (i+1>numActiveButtons) {
                 currentButton.setEnabled(false);
                 currentButton.setAlpha(0.3f);
             }
-
             noteButtons.add(currentButton);
         }
     }
@@ -129,13 +129,23 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
         super.onStop();
 
         playerHealthIcons.clear();
+        cpuHealthIcons.clear();
     }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        popUpDialog.dismiss();
+    }
+
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        playerHealthIcons = getImageViewsForPlayerHealth();
+      //  popUpDialog = new Dialog(this);
+        playerHealthIcons = getImageViewsForHealth(playerHealth);
+        cpuHealthIcons = getImageViewsForHealth(CPUHealth);
 
     }
 
@@ -154,8 +164,20 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
             catch(ArrayIndexOutOfBoundsException e){
                 e.printStackTrace();
             }
+        }
+        else if (observable!=null && observable instanceof CPUHealthObservable) {
+            /* Typecast to PlayerHealth */
+            CPUHealthObservable cpuHealth =(CPUHealthObservable) observable;
 
-
+            /* update UI by using getters methods */
+            cpuHealth.decrementUserHealth();
+            try{
+                cpuHealthIcons.get(cpuHealth.getUserHealth()).startAnimation(myFadeOutAnimation);
+                cpuHealthIcons.get(cpuHealth.getUserHealth()).setVisibility(View.INVISIBLE);
+            }
+            catch(ArrayIndexOutOfBoundsException e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -274,14 +296,24 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
         popUpDialog.show();
     }
 
-    private List<ImageView> getImageViewsForPlayerHealth() {
+    private List<ImageView> getImageViewsForHealth(Observable observable) {
         List<ImageView> healths = new ArrayList<>();
-        healths.add((ImageView) findViewById(R.id.userNote0));
-        healths.add((ImageView) findViewById(R.id.userNote2));
-        healths.add((ImageView) findViewById(R.id.userNote1));
-        healths.add((ImageView) findViewById(R.id.userNote3));
-        healths.add((ImageView) findViewById(R.id.userNote4));
-        healths.add((ImageView) findViewById(R.id.userNote0));
+
+        if (observable!=null && observable instanceof PlayerHealthObserverable) {
+            healths.add((ImageView) findViewById(R.id.userNote0));
+            healths.add((ImageView) findViewById(R.id.userNote2));
+            healths.add((ImageView) findViewById(R.id.userNote1));
+            healths.add((ImageView) findViewById(R.id.userNote3));
+            healths.add((ImageView) findViewById(R.id.userNote4));
+        }
+        else if (observable!=null && observable instanceof CPUHealthObservable) {
+            healths.add((ImageView) findViewById(R.id.cpuNote0));
+            healths.add((ImageView) findViewById(R.id.cpuNote1));
+            healths.add((ImageView) findViewById(R.id.cpuNote2));
+            healths.add((ImageView) findViewById(R.id.cpuNote3));
+            healths.add((ImageView) findViewById(R.id.cpuNote4));
+        }
+
 
         return healths;
     }
