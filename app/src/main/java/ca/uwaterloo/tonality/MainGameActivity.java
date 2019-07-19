@@ -273,6 +273,12 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
     private void endScreen (boolean win) {
         countDown.cancel();
 
+        try{
+            Thread.sleep(1000);
+        } catch(Exception e){
+            Log.e(TAG, "Error! " + e.getMessage());
+        }
+
         soundPlayer.release();
         TextView txt;
         Button level;
