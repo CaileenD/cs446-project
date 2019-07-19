@@ -13,7 +13,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -194,7 +193,6 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
         soundPlayer.playNote(note);
 
         checkUserNote(note);    // see if user selected correct note
-        resetTimer();
     }
 
     protected void playRandomNote(){
@@ -209,9 +207,10 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
         if(playedNote == currentRandomNote){
             rightGuesses++;
             update(CPUHealth, 1);
-            Toast.makeText(this, "Right guess: " + rightGuesses, Toast.LENGTH_LONG).show();
             if(rightGuesses >= 5){
                 gameWon();
+            } else {
+                resetTimer();
             }
         } else {
             wrongGuesses++;
@@ -219,8 +218,9 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
             update(playerHealth, 1);
             if(wrongGuesses >= 5 ){
                 gameOver();
+            } else {
+                resetTimer();
             }
-            Toast.makeText(this, "Wrong guess: " + wrongGuesses, Toast.LENGTH_LONG).show();
 
         }
     }
