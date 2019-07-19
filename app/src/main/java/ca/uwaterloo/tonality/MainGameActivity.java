@@ -343,4 +343,11 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
         PointStorage.getInstance().incrementScore(score);
     }
 
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(popUpDialog != null) {
+            popUpDialog.dismiss();
+        }
+    }
 }
