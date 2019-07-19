@@ -246,6 +246,7 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
         @Override
         public void onFinish() {
             wrongGuesses++;
+            update(playerHealth, 1);
             if(wrongGuesses < 5){
                 resetTimer();
             } else {
