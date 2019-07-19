@@ -1,5 +1,7 @@
 package ca.uwaterloo.tonality;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -47,7 +49,10 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
     private List<ImageView> playerHealthIcons;
     private List<ImageView> cpuHealthIcons;
     Animation myFadeOutAnimation;
-
+    private ImageView playerHeart;
+    private ImageView cpuHeart;
+    private ObjectAnimator scaleDownPlayer;
+    private ObjectAnimator scaleDownCPU;
 
 
     View.OnClickListener listener;
@@ -65,6 +70,8 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
         scaleInfo.setText(selectedScale.toUpperCase());
         TextView levelInfo = findViewById(R.id.levelInfo);
         levelInfo.setText("LEVEL" + (levelDifficulty - 1));
+        playerHeart = findViewById(R.id.userHealth);
+        cpuHeart = findViewById(R.id.cpuHealth);
 
 
         // Player health observer setup
@@ -79,6 +86,31 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
         // Fill up the Image view for the player health icons
         playerHealthIcons = getImageViewsForHealth(playerHealth);
         cpuHealthIcons = getImageViewsForHealth(CPUHealth);
+
+
+
+        scaleDownPlayer = ObjectAnimator.ofPropertyValuesHolder(
+                playerHeart,
+                PropertyValuesHolder.ofFloat("scaleX", 1.2f),
+                PropertyValuesHolder.ofFloat("scaleY", 1.2f));
+        scaleDownPlayer.setDuration(310);
+
+        scaleDownPlayer.setRepeatCount(ObjectAnimator.INFINITE);
+        scaleDownPlayer.setRepeatMode(ObjectAnimator.REVERSE);
+
+        scaleDownPlayer.start();
+
+        scaleDownCPU = ObjectAnimator.ofPropertyValuesHolder(
+                cpuHeart,
+                PropertyValuesHolder.ofFloat("scaleX", 1.2f),
+                PropertyValuesHolder.ofFloat("scaleY", 1.2f));
+
+        scaleDownCPU.setDuration(310);
+
+        scaleDownCPU.setRepeatCount(ObjectAnimator.INFINITE);
+        scaleDownCPU.setRepeatMode(ObjectAnimator.REVERSE);
+
+        scaleDownCPU.start();
 
         // Set up game related things
         numActiveButtons = levelDifficulty;
@@ -208,6 +240,7 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
             rightGuesses++;
             update(CPUHealth, 1);
             if(rightGuesses >= 5){
+                scaleDownCPU.end();
                 gameWon();
             } else {
                 resetTimer();
@@ -217,6 +250,7 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
             score--;
             update(playerHealth, 1);
             if(wrongGuesses >= 5 ){
+                scaleDownPlayer.end();
                 gameOver();
             } else {
                 resetTimer();
