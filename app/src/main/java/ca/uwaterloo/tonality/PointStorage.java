@@ -31,6 +31,12 @@ public class PointStorage {
     }
 
     public long getScore() {
-        return pref.getLong(key, 0);
+
+        if(pref != null){
+            return pref.getLong(key, 0);
+        }
+        else{
+            return 0;
+        }
     }
 }

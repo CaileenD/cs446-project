@@ -3,7 +3,6 @@ package ca.uwaterloo.tonality;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -89,7 +88,6 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
         soundPlayer = new AudioSoundPlayer(this, SOUND_MAP, numActiveButtons);
         popUpDialog = new Dialog(this);
         countDown = new noteCountDownTimer(10000, 1000); // 10 second timer
-        countDown.start();
         timerDisplay = findViewById(R.id.timer);
 
         listener = new View.OnClickListener() {
@@ -113,6 +111,8 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
             }
             noteButtons.add(currentButton);
         }
+
+        countDown.start();
     }
 
 
@@ -230,13 +230,12 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
         countDown.cancel();
 
         try{
-            Thread.sleep(2000); // Have a pause between playing user note and next random note
+            Thread.sleep(1500); // Have a pause between playing user note and next random note
         } catch(Exception e){
             Log.e(TAG, "Error! " + e.getMessage());
         }
 
         playRandomNote();
-        countDown = new noteCountDownTimer(10000, 1000);
         countDown.start();
     }
 
@@ -273,12 +272,6 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
 
     private void endScreen (boolean win) {
         countDown.cancel();
-
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            Log.e(TAG, "Error! " + e.getMessage());
-        }
 
         soundPlayer.release();
         TextView txt;
@@ -343,11 +336,4 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
         PointStorage.getInstance().incrementScore(score);
     }
 
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        if(popUpDialog != null) {
-            popUpDialog.dismiss();
-        }
-    }
 }
