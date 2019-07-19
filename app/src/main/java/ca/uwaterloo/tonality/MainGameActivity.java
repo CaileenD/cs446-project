@@ -1,23 +1,30 @@
 package ca.uwaterloo.tonality;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 import java.util.Vector;
 
-public class MainGameActivity extends AppCompatActivity {
+public class MainGameActivity extends AppCompatActivity implements Observer {
 
     private String TAG = "MainGameActivity";
 
@@ -32,8 +39,16 @@ public class MainGameActivity extends AppCompatActivity {
     final int min = 1;
     private Random randGenerator = new Random();
     private int currentRandomNote = 0;
+    private int health = 5;
     private long score;
     Dialog popUpDialog;
+    private PlayerHealthObserverable playerHealth;
+    private CPUHealthObservable CPUHealth;
+    private List<ImageView> playerHealthIcons;
+    private List<ImageView> cpuHealthIcons;
+    Animation myFadeOutAnimation;
+
+
 
     View.OnClickListener listener;
     Vector<Button> noteButtons;
@@ -51,6 +66,20 @@ public class MainGameActivity extends AppCompatActivity {
         TextView levelInfo = findViewById(R.id.levelInfo);
         levelInfo.setText("LEVEL" + (levelDifficulty - 1));
 
+
+        // Player health observer setup
+        playerHealth = PlayerHealthObserverable.getInstance(health);
+        playerHealth.addObserver(this);
+
+        CPUHealth = CPUHealthObservable.getInstance(health);
+        CPUHealth.addObserver(this);
+
+        myFadeOutAnimation = AnimationUtils.loadAnimation(this, R.anim.fadeout);
+
+        // Fill up the Image view for the player health icons
+        playerHealthIcons = getImageViewsForHealth(playerHealth);
+        cpuHealthIcons = getImageViewsForHealth(CPUHealth);
+
         // Set up game related things
         numActiveButtons = levelDifficulty;
         score = numActiveButtons;
@@ -58,7 +87,6 @@ public class MainGameActivity extends AppCompatActivity {
         soundPlayer = new AudioSoundPlayer(this, SOUND_MAP, numActiveButtons);
         popUpDialog = new Dialog(this);
         countDown = new noteCountDownTimer(10000, 1000); // 10 second timer
-        countDown.start();
         timerDisplay = findViewById(R.id.timer);
 
         listener = new View.OnClickListener() {
@@ -76,13 +104,83 @@ public class MainGameActivity extends AppCompatActivity {
             currentButton.setOnClickListener(listener);
             String noteText = SOUND_MAP.get(i).substring(0, SOUND_MAP.get(i).length() - 1).toUpperCase();
             currentButton.setText(noteText);
-
             if (i+1>numActiveButtons) {
                 currentButton.setEnabled(false);
                 currentButton.setAlpha(0.3f);
             }
-
             noteButtons.add(currentButton);
+        }
+
+        countDown.start();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        /* remove observer at this point */
+        if(playerHealth!=null)
+            playerHealth.deleteObserver(this);
+
+        playerHealthIcons.clear();
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        playerHealthIcons.clear();
+        cpuHealthIcons.clear();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        popUpDialog.dismiss();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+      //  popUpDialog = new Dialog(this);
+        playerHealthIcons = getImageViewsForHealth(playerHealth);
+        cpuHealthIcons = getImageViewsForHealth(CPUHealth);
+
+        playerHealth.resetHealth(health);
+        CPUHealth.resetHealth(health);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        if (observable!=null && observable instanceof PlayerHealthObserverable) {
+            /* Typecast to PlayerHealth */
+            PlayerHealthObserverable playerHealth=(PlayerHealthObserverable) observable;
+
+            /* update UI by using getters methods */
+            playerHealth.decrementUserHealth();
+            try{
+                playerHealthIcons.get(playerHealth.getUserHealth()).startAnimation(myFadeOutAnimation);
+                playerHealthIcons.get(playerHealth.getUserHealth()).setVisibility(View.INVISIBLE);
+            }
+            catch(ArrayIndexOutOfBoundsException e){
+                e.printStackTrace();
+            }
+        }
+        else if (observable!=null && observable instanceof CPUHealthObservable) {
+            /* Typecast to PlayerHealth */
+            CPUHealthObservable cpuHealth =(CPUHealthObservable) observable;
+
+            /* update UI by using getters methods */
+            cpuHealth.decrementUserHealth();
+            try{
+                cpuHealthIcons.get(cpuHealth.getUserHealth()).startAnimation(myFadeOutAnimation);
+                cpuHealthIcons.get(cpuHealth.getUserHealth()).setVisibility(View.INVISIBLE);
+            }
+            catch(ArrayIndexOutOfBoundsException e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -95,7 +193,6 @@ public class MainGameActivity extends AppCompatActivity {
         soundPlayer.playNote(note);
 
         checkUserNote(note);    // see if user selected correct note
-        resetTimer();
     }
 
     protected void playRandomNote(){
@@ -109,31 +206,36 @@ public class MainGameActivity extends AppCompatActivity {
         }
         if(playedNote == currentRandomNote){
             rightGuesses++;
-            Toast.makeText(this, "Right guess: " + rightGuesses, Toast.LENGTH_LONG).show();
+            update(CPUHealth, 1);
             if(rightGuesses >= 5){
                 gameWon();
+            } else {
+                resetTimer();
             }
         } else {
             wrongGuesses++;
             score--;
+            update(playerHealth, 1);
             if(wrongGuesses >= 5 ){
                 gameOver();
+            } else {
+                resetTimer();
             }
-            Toast.makeText(this, "Wrong guess: " + wrongGuesses, Toast.LENGTH_LONG).show();
+
         }
     }
+
 
     private void resetTimer(){
         countDown.cancel();
 
         try{
-            Thread.sleep(2000); // Have a pause between playing user note and next random note
+            Thread.sleep(1500); // Have a pause between playing user note and next random note
         } catch(Exception e){
             Log.e(TAG, "Error! " + e.getMessage());
         }
 
         playRandomNote();
-        countDown = new noteCountDownTimer(10000, 1000);
         countDown.start();
     }
 
@@ -144,6 +246,7 @@ public class MainGameActivity extends AppCompatActivity {
         @Override
         public void onFinish() {
             wrongGuesses++;
+            update(playerHealth, 1);
             if(wrongGuesses < 5){
                 resetTimer();
             } else {
@@ -171,9 +274,9 @@ public class MainGameActivity extends AppCompatActivity {
     private void endScreen (boolean win) {
         countDown.cancel();
 
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
+        try{
+            Thread.sleep(1000);
+        } catch(Exception e){
             Log.e(TAG, "Error! " + e.getMessage());
         }
 
@@ -194,7 +297,38 @@ public class MainGameActivity extends AppCompatActivity {
         saveScore();
 
         popUpDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        popUpDialog.show();
+        if(!((Activity) this).isFinishing())
+        {
+            try {
+                popUpDialog.show();
+            }
+            catch (WindowManager.BadTokenException e) {
+                //use a log message
+            }
+        }
+
+    }
+
+    private List<ImageView> getImageViewsForHealth(Observable observable) {
+        List<ImageView> healths = new ArrayList<>();
+
+        if (observable!=null && observable instanceof PlayerHealthObserverable) {
+            healths.add((ImageView) findViewById(R.id.userNote0));
+            healths.add((ImageView) findViewById(R.id.userNote2));
+            healths.add((ImageView) findViewById(R.id.userNote1));
+            healths.add((ImageView) findViewById(R.id.userNote3));
+            healths.add((ImageView) findViewById(R.id.userNote4));
+        }
+        else if (observable!=null && observable instanceof CPUHealthObservable) {
+            healths.add((ImageView) findViewById(R.id.cpuNote0));
+            healths.add((ImageView) findViewById(R.id.cpuNote1));
+            healths.add((ImageView) findViewById(R.id.cpuNote2));
+            healths.add((ImageView) findViewById(R.id.cpuNote3));
+            healths.add((ImageView) findViewById(R.id.cpuNote4));
+        }
+
+
+        return healths;
     }
 
     private void gameWon() {
