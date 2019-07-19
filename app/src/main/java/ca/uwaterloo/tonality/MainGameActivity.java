@@ -194,7 +194,9 @@ public class MainGameActivity extends AppCompatActivity {
         saveScore();
 
         popUpDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        popUpDialog.show();
+        if(!isFinishing()){
+            popUpDialog.show();
+        }
     }
 
     private void gameWon() {
@@ -209,4 +211,11 @@ public class MainGameActivity extends AppCompatActivity {
         PointStorage.getInstance().incrementScore(score);
     }
 
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(popUpDialog != null) {
+            popUpDialog.dismiss();
+        }
+    }
 }
