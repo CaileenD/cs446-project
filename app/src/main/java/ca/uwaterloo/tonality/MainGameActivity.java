@@ -262,6 +262,9 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
 
     public void restartLevel(View view)
     {
+        if(popUpDialog != null){
+            popUpDialog.dismiss();
+        }
         MainGameActivity.this.recreate();
     }
 
