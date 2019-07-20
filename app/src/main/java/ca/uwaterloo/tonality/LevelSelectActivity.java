@@ -37,8 +37,7 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-        points = findViewById(R.id.points);
-        points.setText(String.valueOf(PointStorage.getInstance().getScore()));
+        loadPoints();
 
         star1 = findViewById(R.id.level1EmptyStar1);
         star2 = findViewById(R.id.level1EmptyStar2);
@@ -64,13 +63,45 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
 
     }
 
+    private void loadPoints() {
+        points = findViewById(R.id.points);
+        points.setText(String.valueOf(PointStorage.getInstance().getScore()));
+    }
+
+    /**
+     * Sets alpha of levels according to unlocked status
+     */
+    private void loadAllLevelImage() {
+        for (int i = 0; i < 6; ++i) {
+            // first level of any scale unlocked
+            if (i == 0) {
+                PointStorage.getInstance().store(selectedScale, String.valueOf(1), true);
+            }
+
+            loadLevelImage(i + 1);
+        }
+    }
+
+    private void loadLevelImage(int level) {
+        int bubbleId = getResources().getIdentifier("levelBubble" + (level), "id", getPackageName());
+        int noteId = getResources().getIdentifier("levelNote" + (level), "id", getPackageName());
+
+        ImageView levelBubble = findViewById(bubbleId);
+        ImageView levelNote = findViewById(noteId);
+        int unlocked = PointStorage.getInstance().load(selectedScale, String.valueOf(level) )? 1 : 0;
+
+        levelBubble.setAlpha((float) Math.max(0.5, unlocked));
+        levelNote.setAlpha((float) Math.max(0.5, unlocked));
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String scale = adapterView.getItemAtPosition(i).toString();
         selectedScale = scale;
+        loadAllLevelImage();
 
         try{
-            if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 1){
+            if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "1") == 1){
                 star1.setImageResource(R.drawable.filled_star);
                 star2.setImageResource(R.drawable.empty_star);
                 star3.setImageResource(R.drawable.empty_star);
@@ -103,10 +134,25 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
 
     public void onLevelClick(View view) {
         String levelName = getResources().getResourceEntryName(view.getId());
-        int levelDifficulty = Integer.valueOf(levelName.substring(levelName.length()-1)) + 1;
-        Intent intent = new Intent(LevelSelectActivity.this, MainGameActivity.class);
-        intent.putExtra("selectedScale", selectedScale);
-        intent.putExtra("levelDifficulty", levelDifficulty);
-        startActivity(intent);
+        int levelDifficulty = Integer.valueOf(levelName.substring(levelName.length()-1));
+        boolean unlocked = PointStorage.getInstance().load(selectedScale, String.valueOf(levelDifficulty));
+
+        if (unlocked) {
+            Intent intent = new Intent(LevelSelectActivity.this, MainGameActivity.class);
+            intent.putExtra("selectedScale", selectedScale);
+            intent.putExtra("levelDifficulty", levelDifficulty + 1);
+            startActivity(intent);
+        } else {
+            long points = PointStorage.getInstance().getScore();
+
+            if (levelDifficulty <= points) { //unlock level
+                PointStorage.getInstance().store(selectedScale, String.valueOf(levelDifficulty), true);
+                PointStorage.getInstance().incrementScore(-points);
+
+                // change alpha of level
+                loadLevelImage(levelDifficulty);
+                loadPoints();
+            }
+        }
     }
 }
