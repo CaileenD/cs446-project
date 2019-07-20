@@ -341,9 +341,6 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
 
     public void saveScore() {
         PointStorage.getInstance().incrementScore(score);
-        PointStorage.getInstance().store(this.getIntent().getStringExtra("selectedScale"),
-                String.valueOf(this.getIntent().getIntExtra("levelDifficulty", 1)),
-                true);
     }
 
 }
