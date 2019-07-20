@@ -393,13 +393,13 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
     public void saveScore() {
         int stars;
         PointStorage.getInstance().incrementScore(score);
-        if (wrongGuesses < 3){
+        if (wrongGuesses == 0){
             stars = 3;
         }
-        else if (wrongGuesses == 3){
+        else if (wrongGuesses == 1 || wrongGuesses == 2){
             stars = 2;
         }
-        else if (wrongGuesses == 4){
+        else if (wrongGuesses == 3 || wrongGuesses == 4){
             stars = 1;
         }
         else {
