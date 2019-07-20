@@ -353,5 +353,6 @@
         app:layout_constraintVertical_bias="0.432"
         app:srcCompat="@drawable/note_icon_2" />
 
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
