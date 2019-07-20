@@ -1,10 +1,12 @@
 package ca.uwaterloo.tonality;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -14,11 +16,16 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
 
     String selectedScale = "C Major"; // default value
     private TextView points;
+    private ImageView star1;
+    private ImageView star2;
+    private ImageView star3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_select);
+
+        LevelStorage.init(getApplicationContext());
 
         Spinner spinner = findViewById(R.id.scaleSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -32,6 +39,29 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
 
         points = findViewById(R.id.points);
         points.setText(String.valueOf(PointStorage.getInstance().getScore()));
+
+        star1 = findViewById(R.id.level1EmptyStar1);
+        star2 = findViewById(R.id.level1EmptyStar2);
+        star3 = findViewById(R.id.level1EmptyStar3);
+
+        try{
+            if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 1){
+                star1.setImageResource(R.drawable.filled_star);
+            }
+            else if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 2){
+                star1.setImageResource(R.drawable.filled_star);
+                star2.setImageResource(R.drawable.filled_star);
+            }
+            else if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 3){
+                star1.setImageResource(R.drawable.filled_star);
+                star2.setImageResource(R.drawable.filled_star);
+                star3.setImageResource(R.drawable.filled_star);
+            }
+        }
+        catch (RuntimeException e){
+
+        }
+
     }
 
     @Override
