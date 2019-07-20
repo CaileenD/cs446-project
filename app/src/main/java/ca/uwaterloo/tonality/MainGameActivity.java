@@ -53,6 +53,8 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
     private ImageView cpuHeart;
     private ObjectAnimator scaleDownPlayer;
     private ObjectAnimator scaleDownCPU;
+    private String scale;
+    private int level;
 
 
     View.OnClickListener listener;
@@ -72,6 +74,18 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
         levelInfo.setText("LEVEL" + (levelDifficulty - 1));
         playerHeart = findViewById(R.id.userHealth);
         cpuHeart = findViewById(R.id.cpuHealth);
+
+        if (savedInstanceState == null){
+            Bundle extras = getIntent().getExtras();
+            if (extras == null){
+                scale = "Invalid";
+                level = 0;
+            }
+            else{
+                scale = extras.getString("selectedScale");
+                level = extras.getInt("levelDifficulty");
+            }
+        }
 
 
         // Player health observer setup
@@ -377,7 +391,23 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
     }
 
     public void saveScore() {
+        int stars;
         PointStorage.getInstance().incrementScore(score);
+        if (wrongGuesses < 3){
+            stars = 3;
+        }
+        else if (wrongGuesses == 3){
+            stars = 2;
+        }
+        else if (wrongGuesses == 4){
+            stars = 1;
+        }
+        else {
+            stars = 0;
+        }
+        // Only adjust the stars if there is a lower number
+        if (LevelStorage.getInstance().getStarsForLevel(scale, Integer.toString(level)) < stars){
+            LevelStorage.getInstance().storeLevel(scale, Integer.toString(level), stars);
+        }
     }
-
 }
