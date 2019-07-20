@@ -72,10 +72,13 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
         try{
             if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 1){
                 star1.setImageResource(R.drawable.filled_star);
+                star2.setImageResource(R.drawable.empty_star);
+                star3.setImageResource(R.drawable.empty_star);
             }
             else if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 2){
                 star1.setImageResource(R.drawable.filled_star);
                 star2.setImageResource(R.drawable.filled_star);
+                star3.setImageResource(R.drawable.empty_star);
             }
             else if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 3){
                 star1.setImageResource(R.drawable.filled_star);
