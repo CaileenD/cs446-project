@@ -92,6 +92,12 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
 
         levelBubble.setAlpha((float) Math.max(0.5, unlocked));
         levelNote.setAlpha((float) Math.max(0.5, unlocked));
+        if (level != 1) {
+            if (level == 6) level--;
+            int lineId = getResources().getIdentifier("line" + (level-1), "id", getPackageName());
+            ImageView lineConnector = findViewById(lineId);
+            lineConnector.setAlpha((float) Math.max(0.05, unlocked));
+        }
     }
 
     @Override
