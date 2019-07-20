@@ -31,7 +31,7 @@ public class PointStorage {
     }
 
     public boolean load(String scale, String level) {
-        return pref.getBoolean(key, false);
+        return pref.getBoolean(scale + ":" + level, false);
     }
 
 
