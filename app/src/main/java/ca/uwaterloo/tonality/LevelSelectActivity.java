@@ -68,6 +68,29 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String scale = adapterView.getItemAtPosition(i).toString();
         selectedScale = scale;
+
+        try{
+            if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 1){
+                star1.setImageResource(R.drawable.filled_star);
+            }
+            else if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 2){
+                star1.setImageResource(R.drawable.filled_star);
+                star2.setImageResource(R.drawable.filled_star);
+            }
+            else if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 3){
+                star1.setImageResource(R.drawable.filled_star);
+                star2.setImageResource(R.drawable.filled_star);
+                star3.setImageResource(R.drawable.filled_star);
+            }
+            else{
+                star1.setImageResource(R.drawable.empty_star);
+                star2.setImageResource(R.drawable.empty_star);
+                star3.setImageResource(R.drawable.empty_star);
+            }
+        }
+        catch (RuntimeException e){
+
+        }
     }
 
     @Override
