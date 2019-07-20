@@ -71,7 +71,7 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
         TextView scaleInfo = findViewById(R.id.scaleInfo);
         scaleInfo.setText(selectedScale.toUpperCase());
         TextView levelInfo = findViewById(R.id.levelInfo);
-        levelInfo.setText("LEVEL" + (levelDifficulty - 1));
+        levelInfo.setText("LEVEL " + (levelDifficulty - 1));
         playerHeart = findViewById(R.id.userHealth);
         cpuHeart = findViewById(R.id.cpuHealth);
 
@@ -107,7 +107,7 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
                 playerHeart,
                 PropertyValuesHolder.ofFloat("scaleX", 1.2f),
                 PropertyValuesHolder.ofFloat("scaleY", 1.2f));
-        scaleDownPlayer.setDuration(310);
+        scaleDownPlayer.setDuration(620);
 
         scaleDownPlayer.setRepeatCount(ObjectAnimator.INFINITE);
         scaleDownPlayer.setRepeatMode(ObjectAnimator.REVERSE);
@@ -119,7 +119,7 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
                 PropertyValuesHolder.ofFloat("scaleX", 1.2f),
                 PropertyValuesHolder.ofFloat("scaleY", 1.2f));
 
-        scaleDownCPU.setDuration(310);
+        scaleDownCPU.setDuration(620);
 
         scaleDownCPU.setRepeatCount(ObjectAnimator.INFINITE);
         scaleDownCPU.setRepeatMode(ObjectAnimator.REVERSE);
