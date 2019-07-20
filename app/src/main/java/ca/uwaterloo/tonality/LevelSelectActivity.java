@@ -1,6 +1,7 @@
 package ca.uwaterloo.tonality;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,11 +16,16 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
 
     String selectedScale = "C Major"; // default value
     private TextView points;
+    private ImageView star1;
+    private ImageView star2;
+    private ImageView star3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_select);
+
+        LevelStorage.init(getApplicationContext());
 
         Spinner spinner = findViewById(R.id.scaleSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -31,8 +37,30 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-        loadAllLevelImage();
         loadPoints();
+
+        star1 = findViewById(R.id.level1EmptyStar1);
+        star2 = findViewById(R.id.level1EmptyStar2);
+        star3 = findViewById(R.id.level1EmptyStar3);
+
+        try{
+            if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 1){
+                star1.setImageResource(R.drawable.filled_star);
+            }
+            else if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 2){
+                star1.setImageResource(R.drawable.filled_star);
+                star2.setImageResource(R.drawable.filled_star);
+            }
+            else if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 3){
+                star1.setImageResource(R.drawable.filled_star);
+                star2.setImageResource(R.drawable.filled_star);
+                star3.setImageResource(R.drawable.filled_star);
+            }
+        }
+        catch (RuntimeException e){
+
+        }
+
     }
 
     private void loadPoints() {
@@ -71,6 +99,32 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
         String scale = adapterView.getItemAtPosition(i).toString();
         selectedScale = scale;
         loadAllLevelImage();
+
+        try{
+            if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "1") == 1){
+                star1.setImageResource(R.drawable.filled_star);
+                star2.setImageResource(R.drawable.empty_star);
+                star3.setImageResource(R.drawable.empty_star);
+            }
+            else if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 2){
+                star1.setImageResource(R.drawable.filled_star);
+                star2.setImageResource(R.drawable.filled_star);
+                star3.setImageResource(R.drawable.empty_star);
+            }
+            else if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 3){
+                star1.setImageResource(R.drawable.filled_star);
+                star2.setImageResource(R.drawable.filled_star);
+                star3.setImageResource(R.drawable.filled_star);
+            }
+            else{
+                star1.setImageResource(R.drawable.empty_star);
+                star2.setImageResource(R.drawable.empty_star);
+                star3.setImageResource(R.drawable.empty_star);
+            }
+        }
+        catch (RuntimeException e){
+
+        }
     }
 
     @Override
