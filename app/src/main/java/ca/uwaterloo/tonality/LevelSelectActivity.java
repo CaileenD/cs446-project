@@ -130,6 +130,7 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
                         // change alpha of level
                         loadLevelImage(levelDifficulty);
                         loadPoints();
+                        resetCosts();
                     }
                 }
             }
