@@ -54,6 +54,7 @@
     <string name="note7">7</string>
 
     <string name="CPUheader">CPU</string>
+    <string name="UserHeader">USER</string>
 
     <!-- for game over/ win screens -->
     <string name="game_over">Game Over!</string>

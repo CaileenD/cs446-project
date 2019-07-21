@@ -296,6 +296,16 @@
         app:layout_constraintRight_toRightOf="@id/cpuNote1"
         app:layout_constraintBottom_toTopOf="@id/cpuNote1"/>
 
+    <TextView
+        android:id="@+id/userHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/UserHeader"
+        android:textSize="40sp"
+        app:layout_constraintLeft_toLeftOf="@id/userNote1"
+        app:layout_constraintRight_toRightOf="@id/userNote1"
+        app:layout_constraintBottom_toTopOf="@id/userNote1"/>
+
     <ImageView
         android:id="@+id/cpuNote0"
         android:layout_width="90dp"
