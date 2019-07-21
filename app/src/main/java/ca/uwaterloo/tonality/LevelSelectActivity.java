@@ -94,14 +94,20 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String scale = adapterView.getItemAtPosition(i).toString();
         selectedScale = scale;
+        resetCosts();
         loadAllLevelImage();
         setStars();
-
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    private void resetCosts() {
+      for (TextView v : levelCosts)  {
+          v.setText("");
+      }
     }
 
     private void showCost(final int levelDifficulty) {
