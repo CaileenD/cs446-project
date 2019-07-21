@@ -70,19 +70,15 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
     private void loadLevelImage(int level) {
         int bubbleId = getResources().getIdentifier("levelBubble" + (level), "id", getPackageName());
         int noteId = getResources().getIdentifier("levelNote" + (level), "id", getPackageName());
-
+        int lineId = getResources().getIdentifier("line" + (level), "id", getPackageName());
         ImageView levelBubble = findViewById(bubbleId);
         ImageView levelNote = findViewById(noteId);
+        ImageView lineConnector = findViewById(lineId);
         int unlocked = PointStorage.getInstance().load(selectedScale, String.valueOf(level) )? 1 : 0;
 
         levelBubble.setAlpha((float) Math.max(0.5, unlocked));
         levelNote.setAlpha((float) Math.max(0.5, unlocked));
-        if (level != 1) {
-            if (level == 6) level--;
-            int lineId = getResources().getIdentifier("line" + (level-1), "id", getPackageName());
-            ImageView lineConnector = findViewById(lineId);
-            lineConnector.setAlpha((float) Math.max(0.05, unlocked));
-        }
+        if (level != 1) lineConnector.setAlpha((float) Math.max(0.05, unlocked));
     }
 
     @Override
