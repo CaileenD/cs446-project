@@ -5,7 +5,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/bg_repeat"
-    android:orientation="vertical"
+    android:screenOrientation="portrait"
+    android:configChanges="keyboardHidden|orientation|screenSize"
     tools:context=".MainMenuActivity">
 
     <!--android:layout_above="@id/main_menu_play"-->

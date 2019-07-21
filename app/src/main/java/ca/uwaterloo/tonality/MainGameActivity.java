@@ -1,5 +1,7 @@
 package ca.uwaterloo.tonality;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -47,7 +49,12 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
     private List<ImageView> playerHealthIcons;
     private List<ImageView> cpuHealthIcons;
     Animation myFadeOutAnimation;
-
+    private ImageView playerHeart;
+    private ImageView cpuHeart;
+    private ObjectAnimator scaleDownPlayer;
+    private ObjectAnimator scaleDownCPU;
+    private String scale;
+    private int level;
 
 
     View.OnClickListener listener;
@@ -64,7 +71,21 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
         TextView scaleInfo = findViewById(R.id.scaleInfo);
         scaleInfo.setText(selectedScale.toUpperCase());
         TextView levelInfo = findViewById(R.id.levelInfo);
-        levelInfo.setText("LEVEL" + (levelDifficulty - 1));
+        levelInfo.setText("LEVEL " + (levelDifficulty - 1));
+        playerHeart = findViewById(R.id.userHealth);
+        cpuHeart = findViewById(R.id.cpuHealth);
+
+        if (savedInstanceState == null){
+            Bundle extras = getIntent().getExtras();
+            if (extras == null){
+                scale = "Invalid";
+                level = 0;
+            }
+            else{
+                scale = extras.getString("selectedScale");
+                level = extras.getInt("levelDifficulty");
+            }
+        }
 
 
         // Player health observer setup
@@ -79,6 +100,31 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
         // Fill up the Image view for the player health icons
         playerHealthIcons = getImageViewsForHealth(playerHealth);
         cpuHealthIcons = getImageViewsForHealth(CPUHealth);
+
+
+
+        scaleDownPlayer = ObjectAnimator.ofPropertyValuesHolder(
+                playerHeart,
+                PropertyValuesHolder.ofFloat("scaleX", 1.2f),
+                PropertyValuesHolder.ofFloat("scaleY", 1.2f));
+        scaleDownPlayer.setDuration(620);
+
+        scaleDownPlayer.setRepeatCount(ObjectAnimator.INFINITE);
+        scaleDownPlayer.setRepeatMode(ObjectAnimator.REVERSE);
+
+        scaleDownPlayer.start();
+
+        scaleDownCPU = ObjectAnimator.ofPropertyValuesHolder(
+                cpuHeart,
+                PropertyValuesHolder.ofFloat("scaleX", 1.2f),
+                PropertyValuesHolder.ofFloat("scaleY", 1.2f));
+
+        scaleDownCPU.setDuration(620);
+
+        scaleDownCPU.setRepeatCount(ObjectAnimator.INFINITE);
+        scaleDownCPU.setRepeatMode(ObjectAnimator.REVERSE);
+
+        scaleDownCPU.start();
 
         // Set up game related things
         numActiveButtons = levelDifficulty;
@@ -123,6 +169,7 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
             playerHealth.deleteObserver(this);
 
         playerHealthIcons.clear();
+        countDown.cancel();
     }
 
     @Override
@@ -208,6 +255,7 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
             rightGuesses++;
             update(CPUHealth, 1);
             if(rightGuesses >= 5){
+                scaleDownCPU.end();
                 gameWon();
             } else {
                 resetTimer();
@@ -217,6 +265,7 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
             score--;
             update(playerHealth, 1);
             if(wrongGuesses >= 5 ){
+                scaleDownPlayer.end();
                 gameOver();
             } else {
                 resetTimer();
@@ -262,6 +311,9 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
 
     public void restartLevel(View view)
     {
+        if(popUpDialog != null){
+            popUpDialog.dismiss();
+        }
         MainGameActivity.this.recreate();
     }
 
@@ -340,7 +392,23 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
     }
 
     public void saveScore() {
+        int stars;
         PointStorage.getInstance().incrementScore(score);
+        if (wrongGuesses == 0){
+            stars = 3;
+        }
+        else if (wrongGuesses == 1 || wrongGuesses == 2){
+            stars = 2;
+        }
+        else if (wrongGuesses == 3 || wrongGuesses == 4){
+            stars = 1;
+        }
+        else {
+            stars = 0;
+        }
+        // Only adjust the stars if there is a lower number
+        if (LevelStorage.getInstance().getStarsForLevel(scale, Integer.toString(level)) < stars){
+            LevelStorage.getInstance().storeLevel(scale, Integer.toString(level), stars);
+        }
     }
-
 }

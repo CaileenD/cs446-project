@@ -5,6 +5,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/bg_repeat"
+    android:screenOrientation="portrait"
+    android:configChanges="keyboardHidden|orientation|screenSize"
     tools:context=".LevelSelectActivity">
 
     <TextView
@@ -54,7 +56,7 @@
         tools:visibility="visible" />
 
     <ImageView
-        android:id="@+id/line1"
+        android:id="@+id/line2"
         android:layout_width="174dp"
         android:layout_height="129dp"
         android:layout_marginStart="8dp"
@@ -64,16 +66,16 @@
         android:rotation="148"
         app:layout_constraintEnd_toEndOf="@+id/levelBubble2"
         app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="@+id/LevelBubble1"
+        app:layout_constraintStart_toStartOf="@+id/levelBubble1"
         app:layout_constraintTop_toBottomOf="@+id/scaleSpinner"
         app:srcCompat="@drawable/level_line" />
 
     <ImageView
-        android:id="@+id/line2"
+        android:id="@+id/line3"
         android:layout_width="223dp"
         android:layout_height="147dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="8dp"
         android:alpha="0.05"
         android:rotation="102"
@@ -84,25 +86,25 @@
         app:srcCompat="@drawable/level_line" />
 
     <ImageView
-        android:id="@+id/line3"
+        android:id="@+id/line4"
         android:layout_width="174dp"
         android:layout_height="129dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="192dp"
+        android:layout_marginTop="182dp"
         android:layout_marginEnd="8dp"
         android:alpha="0.05"
-        android:rotation="150"
+        android:rotation="148"
         app:layout_constraintEnd_toEndOf="@+id/levelBubble4"
         app:layout_constraintStart_toStartOf="@+id/levelBubble3"
         app:layout_constraintTop_toBottomOf="@+id/scaleSpinner"
         app:srcCompat="@drawable/level_line" />
 
     <ImageView
-        android:id="@+id/line4"
+        android:id="@+id/line5"
         android:layout_width="227dp"
         android:layout_height="149dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="260dp"
+        android:layout_marginTop="250dp"
         android:layout_marginEnd="8dp"
         android:alpha="0.05"
         android:rotation="102"
@@ -113,11 +115,11 @@
         app:srcCompat="@drawable/level_line" />
 
     <ImageView
-        android:id="@+id/line5"
+        android:id="@+id/line6"
         android:layout_width="180dp"
         android:layout_height="134dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="344dp"
+        android:layout_marginTop="334dp"
         android:layout_marginEnd="8dp"
         android:alpha="0.05"
         android:rotation="148"
@@ -128,7 +130,7 @@
         app:srcCompat="@drawable/level_line" />
 
     <ImageView
-        android:id="@+id/LevelBubble1"
+        android:id="@+id/levelBubble1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
@@ -146,10 +148,10 @@
         android:clickable="false"
         android:onClick="onLevelClick"
         android:tint="@color/main_black"
-        app:layout_constraintBottom_toBottomOf="@+id/LevelBubble1"
-        app:layout_constraintEnd_toEndOf="@+id/LevelBubble1"
-        app:layout_constraintStart_toStartOf="@+id/LevelBubble1"
-        app:layout_constraintTop_toTopOf="@+id/LevelBubble1"
+        app:layout_constraintBottom_toBottomOf="@+id/levelBubble1"
+        app:layout_constraintEnd_toEndOf="@+id/levelBubble1"
+        app:layout_constraintStart_toStartOf="@+id/levelBubble1"
+        app:layout_constraintTop_toTopOf="@+id/levelBubble1"
         app:srcCompat="@drawable/note_icon_1" />
 
     <ImageView
@@ -183,10 +185,10 @@
         android:id="@+id/levelBubble3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="208dp"
-        android:layout_marginEnd="292dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="198dp"
         android:alpha="0.625"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scaleSpinner"
         app:srcCompat="@drawable/note_button" />
 
@@ -209,7 +211,7 @@
         android:id="@+id/levelBubble4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="244dp"
+        android:layout_marginTop="234dp"
         android:layout_marginEnd="64dp"
         android:alpha="0.625"
         app:layout_constraintEnd_toEndOf="parent"
@@ -236,10 +238,10 @@
         android:id="@+id/levelBubble5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="352dp"
-        android:layout_marginEnd="296dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="342dp"
         android:alpha="0.625"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scaleSpinner"
         app:srcCompat="@drawable/note_button" />
 
@@ -261,7 +263,7 @@
         android:id="@+id/levelBubble6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="408dp"
+        android:layout_marginTop="398dp"
         android:layout_marginEnd="68dp"
         android:alpha="0.625"
         app:layout_constraintEnd_toEndOf="parent"
@@ -313,6 +315,210 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/empty_star" />
 
+    <ImageView
+        android:id="@+id/level2EmptyStar3"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="64dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/levelNote2"
+        app:srcCompat="@drawable/empty_star" />
+
+    <ImageView
+        android:id="@+id/level2EmptyStar2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="84dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/levelNote2"
+        app:srcCompat="@drawable/empty_star" />
+
+    <ImageView
+        android:id="@+id/level2EmptyStar1"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="104dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/levelNote2"
+        app:srcCompat="@drawable/empty_star" />
+
+    <ImageView
+        android:id="@+id/level3EmptyStar1"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/levelNote3"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/empty_star" />
+
+    <ImageView
+        android:id="@+id/level3EmptyStar2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/levelNote3"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/empty_star" />
+
+    <ImageView
+        android:id="@+id/level3EmptyStar3"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/levelNote3"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/empty_star" />
+
+    <ImageView
+        android:id="@+id/level4EmptyStar1"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/levelNote4"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/empty_star" />
+
+    <ImageView
+        android:id="@+id/level4EmptyStar2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="84dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/levelNote4"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/empty_star" />
+
+    <ImageView
+        android:id="@+id/level4EmptyStar3"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="104dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/levelNote4"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/empty_star" />
+
+    <ImageView
+        android:id="@+id/level5EmptyStar1"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="152dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/levelNote5"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/empty_star" />
+
+    <ImageView
+        android:id="@+id/level5EmptyStar2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="152dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/levelNote5"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/empty_star" />
+
+    <ImageView
+        android:id="@+id/level5EmptyStar3"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="152dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/levelNote5"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/empty_star" />
+
+    <ImageView
+        android:id="@+id/level6EmptyStar1"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="96dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/levelNote6"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/empty_star" />
+
+    <ImageView
+        android:id="@+id/level6EmptyStar2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="84dp"
+        android:layout_marginBottom="96dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/levelNote6"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/empty_star" />
+
+    <ImageView
+        android:id="@+id/level6EmptyStar3"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="104dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/levelNote6"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/empty_star" />
+
     <TextView
         android:id="@+id/points"
         android:layout_width="wrap_content"
@@ -328,5 +534,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/levelBubble6" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="125dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="POINTS"
+        android:textColor="@color/main_pink"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/level6EmptyStar3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/levelNote5"
+        app:layout_constraintVertical_bias="0.434" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
