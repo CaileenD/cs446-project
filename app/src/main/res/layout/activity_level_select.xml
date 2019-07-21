@@ -552,4 +552,70 @@
         app:layout_constraintTop_toBottomOf="@+id/levelNote5"
         app:layout_constraintVertical_bias="0.434" />
 
+    <TextView
+        android:id="@+id/levelCost1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/main_pink"
+        android:paddingBottom="3dp"
+        app:layout_constraintLeft_toLeftOf="@id/levelBubble1"
+        app:layout_constraintRight_toRightOf="@id/levelBubble1"
+        app:layout_constraintBottom_toTopOf="@id/levelBubble1" />
+
+    <TextView
+        android:id="@+id/levelCost2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/main_pink"
+        android:paddingBottom="3dp"
+        app:layout_constraintLeft_toLeftOf="@id/levelBubble2"
+        app:layout_constraintRight_toRightOf="@id/levelBubble2"
+        app:layout_constraintBottom_toTopOf="@id/levelBubble2" />
+
+    <TextView
+        android:id="@+id/levelCost3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/main_pink"
+        android:paddingBottom="3dp"
+        app:layout_constraintLeft_toLeftOf="@id/levelBubble3"
+        app:layout_constraintRight_toRightOf="@id/levelBubble3"
+        app:layout_constraintBottom_toTopOf="@id/levelBubble3" />
+
+    <TextView
+        android:id="@+id/levelCost4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/main_pink"
+        android:paddingBottom="3dp"
+        app:layout_constraintLeft_toLeftOf="@id/levelBubble4"
+        app:layout_constraintRight_toRightOf="@id/levelBubble4"
+        app:layout_constraintBottom_toTopOf="@id/levelBubble4" />
+
+    <TextView
+        android:id="@+id/levelCost5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/main_pink"
+        android:paddingBottom="3dp"
+        app:layout_constraintLeft_toLeftOf="@id/levelBubble5"
+        app:layout_constraintRight_toRightOf="@id/levelBubble5"
+        app:layout_constraintBottom_toTopOf="@id/levelBubble5" />
+
+    <TextView
+        android:id="@+id/levelCost6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/main_pink"
+        android:paddingBottom="3dp"
+        app:layout_constraintLeft_toLeftOf="@id/levelBubble6"
+        app:layout_constraintRight_toRightOf="@id/levelBubble6"
+        app:layout_constraintBottom_toTopOf="@id/levelBubble6" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

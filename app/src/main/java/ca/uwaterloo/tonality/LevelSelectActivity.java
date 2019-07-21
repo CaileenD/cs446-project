@@ -20,6 +20,7 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
     String selectedScale = "C Major"; // default value
     private TextView points;
     private List<ImageView> stars;
+    private List<TextView> levelCosts;
 
 
     @Override
@@ -27,6 +28,7 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_select);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // locks screen in portrait
+        levelCosts = new ArrayList<>();
 
         LevelStorage.init(getApplicationContext());
 
@@ -40,12 +42,19 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
+        loadLevelCosts();
         loadPoints();
-
         stars = loadImageViews();
-
         setStars();
+    }
 
+    private void loadLevelCosts() {
+        for (int i = 1; i <= 6; ++i) {
+            String id = "levelCost" + i;
+            int resID = getResources().getIdentifier(id, "id", getPackageName());
+            TextView v = findViewById(resID);
+            levelCosts.add(v);
+        }
     }
 
     private void loadPoints() {
@@ -95,6 +104,32 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
 
     }
 
+    private void showCost(final int levelDifficulty) {
+        for(int i = 0; i < levelCosts.size(); ++i) {
+            TextView v = levelCosts.get(i);
+            if (levelDifficulty != i + 1) {
+                v.setText("");
+            } else {
+                // if cost is already showing, purchase else display cost
+                if (v.getText().toString().trim().length() == 0) {
+                    v.setText(String.valueOf(levelDifficulty + 1));
+                } else {
+                    //purchase level if possible, otherwise do nothing
+                    long points = PointStorage.getInstance().getScore();
+
+                    if (levelDifficulty + 1 <= points) { //unlock level
+                        PointStorage.getInstance().store(selectedScale, String.valueOf(levelDifficulty), true);
+                        PointStorage.getInstance().incrementScore(-(levelDifficulty+1));
+
+                        // change alpha of level
+                        loadLevelImage(levelDifficulty);
+                        loadPoints();
+                    }
+                }
+            }
+        }
+    }
+
     public void onLevelClick(View view) {
         String levelName = getResources().getResourceEntryName(view.getId());
         int levelDifficulty = Integer.valueOf(levelName.substring(levelName.length()-1));
@@ -106,16 +141,7 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
             intent.putExtra("levelDifficulty", levelDifficulty + 1);
             startActivity(intent);
         } else {
-            long points = PointStorage.getInstance().getScore();
-
-            if ((levelDifficulty + 1) <= points) { //unlock level
-                PointStorage.getInstance().store(selectedScale, String.valueOf(levelDifficulty), true);
-                PointStorage.getInstance().incrementScore(-(levelDifficulty+1));
-
-                // change alpha of level
-                loadLevelImage(levelDifficulty);
-                loadPoints();
-            }
+            showCost(levelDifficulty);
         }
     }
 
@@ -150,7 +176,6 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
     }
 
     private void setStars(){
-
         for (int i = 0; i < stars.size(); i += 3){
             String level = Integer.toString((i / 3) + 2);
             try{
