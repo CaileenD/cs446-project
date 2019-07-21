@@ -5,18 +5,28 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LevelSelectActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     String selectedScale = "C Major"; // default value
+    private TextView points;
+    private List<ImageView> stars;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_select);
+
+        LevelStorage.init(getApplicationContext());
 
         Spinner spinner = findViewById(R.id.scaleSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -26,14 +36,60 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
-
         spinner.setOnItemSelectedListener(this);
+
+        loadPoints();
+
+        stars = loadImageViews();
+
+        setStars();
+
+    }
+
+    private void loadPoints() {
+        points = findViewById(R.id.points);
+        points.setText(String.valueOf(PointStorage.getInstance().getScore()));
+    }
+
+    /**
+     * Sets alpha of levels according to unlocked status
+     */
+    private void loadAllLevelImage() {
+        for (int i = 0; i < 6; ++i) {
+            // first level of any scale unlocked
+            if (i == 0) {
+                PointStorage.getInstance().store(selectedScale, String.valueOf(1), true);
+            }
+
+            loadLevelImage(i + 1);
+        }
+    }
+
+    private void loadLevelImage(int level) {
+        int bubbleId = getResources().getIdentifier("levelBubble" + (level), "id", getPackageName());
+        int noteId = getResources().getIdentifier("levelNote" + (level), "id", getPackageName());
+
+        ImageView levelBubble = findViewById(bubbleId);
+        ImageView levelNote = findViewById(noteId);
+        int unlocked = PointStorage.getInstance().load(selectedScale, String.valueOf(level) )? 1 : 0;
+
+        levelBubble.setAlpha((float) Math.max(0.5, unlocked));
+        levelNote.setAlpha((float) Math.max(0.5, unlocked));
+        if (level != 1) {
+            if (level == 6) level--;
+            int lineId = getResources().getIdentifier("line" + (level-1), "id", getPackageName());
+            ImageView lineConnector = findViewById(lineId);
+            lineConnector.setAlpha((float) Math.max(0.05, unlocked));
+        }
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String scale = adapterView.getItemAtPosition(i).toString();
         selectedScale = scale;
+        loadAllLevelImage();
+        setStars();
+
     }
 
     @Override
@@ -43,10 +99,88 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
 
     public void onLevelClick(View view) {
         String levelName = getResources().getResourceEntryName(view.getId());
-        int levelDifficulty = Integer.valueOf(levelName.substring(levelName.length()-1)) + 1;
-        Intent intent = new Intent(LevelSelectActivity.this, MainGameActivity.class);
-        intent.putExtra("selectedScale", selectedScale);
-        intent.putExtra("levelDifficulty", levelDifficulty);
-        startActivity(intent);
+        int levelDifficulty = Integer.valueOf(levelName.substring(levelName.length()-1));
+        boolean unlocked = PointStorage.getInstance().load(selectedScale, String.valueOf(levelDifficulty));
+
+        if (unlocked) {
+            Intent intent = new Intent(LevelSelectActivity.this, MainGameActivity.class);
+            intent.putExtra("selectedScale", selectedScale);
+            intent.putExtra("levelDifficulty", levelDifficulty + 1);
+            startActivity(intent);
+        } else {
+            long points = PointStorage.getInstance().getScore();
+
+            if ((levelDifficulty + 1) <= points) { //unlock level
+                PointStorage.getInstance().store(selectedScale, String.valueOf(levelDifficulty), true);
+                PointStorage.getInstance().incrementScore(-(levelDifficulty+1));
+
+                // change alpha of level
+                loadLevelImage(levelDifficulty);
+                loadPoints();
+            }
+        }
+    }
+
+    private List<ImageView> loadImageViews(){
+        List<ImageView> stars = new ArrayList<>();
+
+        stars.add((ImageView)findViewById(R.id.level1EmptyStar1));
+        stars.add((ImageView)findViewById(R.id.level1EmptyStar2));
+        stars.add((ImageView)findViewById(R.id.level1EmptyStar3));
+
+        stars.add((ImageView)findViewById(R.id.level2EmptyStar1));
+        stars.add((ImageView)findViewById(R.id.level2EmptyStar2));
+        stars.add((ImageView)findViewById(R.id.level2EmptyStar3));
+
+        stars.add((ImageView)findViewById(R.id.level3EmptyStar1));
+        stars.add((ImageView)findViewById(R.id.level3EmptyStar2));
+        stars.add((ImageView)findViewById(R.id.level3EmptyStar3));
+
+        stars.add((ImageView)findViewById(R.id.level4EmptyStar1));
+        stars.add((ImageView)findViewById(R.id.level4EmptyStar2));
+        stars.add((ImageView)findViewById(R.id.level4EmptyStar3));
+
+        stars.add((ImageView)findViewById(R.id.level5EmptyStar1));
+        stars.add((ImageView)findViewById(R.id.level5EmptyStar2));
+        stars.add((ImageView)findViewById(R.id.level5EmptyStar3));
+
+        stars.add((ImageView)findViewById(R.id.level6EmptyStar1));
+        stars.add((ImageView)findViewById(R.id.level6EmptyStar2));
+        stars.add((ImageView)findViewById(R.id.level6EmptyStar3));
+
+        return stars;
+    }
+
+    private void setStars(){
+
+        for (int i = 0; i < stars.size(); i += 3){
+            String level = Integer.toString((i / 3) + 2);
+            try{
+                if (LevelStorage.getInstance().getStarsForLevel(selectedScale, level) == 1){
+                    stars.get(i).setImageResource(R.drawable.filled_star);
+                    stars.get(i + 1).setImageResource(R.drawable.empty_star);
+                    stars.get(i + 2).setImageResource(R.drawable.empty_star);
+                }
+                else if (LevelStorage.getInstance().getStarsForLevel(selectedScale, level) == 2){
+                    stars.get(i).setImageResource(R.drawable.filled_star);
+                    stars.get(i + 1).setImageResource(R.drawable.filled_star);
+                    stars.get(i + 2).setImageResource(R.drawable.empty_star);
+                }
+                else if (LevelStorage.getInstance().getStarsForLevel(selectedScale, level) == 3){
+                    stars.get(i).setImageResource(R.drawable.filled_star);
+                    stars.get(i + 1).setImageResource(R.drawable.filled_star);
+                    stars.get(i + 2).setImageResource(R.drawable.filled_star);
+                }
+                else{
+                    stars.get(i).setImageResource(R.drawable.empty_star);
+                    stars.get(i + 1).setImageResource(R.drawable.empty_star);
+                    stars.get(i + 2).setImageResource(R.drawable.empty_star);
+                }
+            }
+            catch (RuntimeException e){
+
+            }
+        }
+
     }
 }

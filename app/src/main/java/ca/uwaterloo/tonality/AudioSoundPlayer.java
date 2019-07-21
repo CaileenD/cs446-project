@@ -20,7 +20,7 @@ public class AudioSoundPlayer {
     private static List<String> SOUND_MAP = new ArrayList<>();
     SoundPool soundPool;
     private AssetManager assetManager;
-    private SparseArray<noteSound> soundList = new SparseArray<>();
+    private SparseArray<NoteSound> soundList = new SparseArray<>();
     private int numloaded = 0;
     public int firstRandomNote = 0;
 
@@ -69,6 +69,7 @@ public class AudioSoundPlayer {
             soundPool.play(this.note, 1.0f, 1.0f, 1, 0, 1.0f);
         }
     }
+
     private void loadSounds(){
         String[] soundFiles;
         try {
@@ -82,7 +83,7 @@ public class AudioSoundPlayer {
         for(String fileName:SOUND_MAP){
             try {
                 String path = SOUND_FOLDER + "/" + fileName + ".wav";
-                noteSound note = new noteSound(path);
+                NoteSound note = new NoteSound(path);
                 int noteID = load(note);
                 soundList.put(noteID, note);
             } catch (IOException e) {
@@ -92,7 +93,7 @@ public class AudioSoundPlayer {
 
     }
 
-    private int load(noteSound note) throws IOException {
+    private int load(NoteSound note) throws IOException {
         AssetFileDescriptor fileDescriptor = assetManager.openFd(note.getPathName());
         int soundId = soundPool.load(fileDescriptor, 1);
         note.setId(soundId);
@@ -109,7 +110,7 @@ public class AudioSoundPlayer {
         soundPool.release();
     }
 
-    public SparseArray<noteSound> getSounds() {
+    public SparseArray<NoteSound> getSounds() {
         return this.soundList;
     }
 
