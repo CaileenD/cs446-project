@@ -286,6 +286,16 @@
         app:layout_constraintVertical_bias="0.447"
         app:srcCompat="@drawable/heart_icon" />
 
+    <TextView
+        android:id="@+id/CPUheader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/CPUheader"
+        android:textSize="40sp"
+        app:layout_constraintLeft_toLeftOf="@id/cpuNote1"
+        app:layout_constraintRight_toRightOf="@id/cpuNote1"
+        app:layout_constraintBottom_toTopOf="@id/cpuNote1"/>
+
     <ImageView
         android:id="@+id/cpuNote0"
         android:layout_width="90dp"
