@@ -169,6 +169,7 @@ public class MainGameActivity extends AppCompatActivity implements Observer {
             playerHealth.deleteObserver(this);
 
         playerHealthIcons.clear();
+        countDown.cancel();
     }
 
     @Override
