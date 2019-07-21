@@ -110,9 +110,9 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
         } else {
             long points = PointStorage.getInstance().getScore();
 
-            if (levelDifficulty <= points) { //unlock level
+            if ((levelDifficulty + 1) <= points) { //unlock level
                 PointStorage.getInstance().store(selectedScale, String.valueOf(levelDifficulty), true);
-                PointStorage.getInstance().incrementScore(-levelDifficulty);
+                PointStorage.getInstance().incrementScore(-(levelDifficulty+1));
 
                 // change alpha of level
                 loadLevelImage(levelDifficulty);
