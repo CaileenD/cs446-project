@@ -292,6 +292,7 @@
         android:layout_height="wrap_content"
         android:text="@string/CPUheader"
         android:textSize="40sp"
+        android:paddingBottom="8dp"
         app:layout_constraintLeft_toLeftOf="@id/cpuNote1"
         app:layout_constraintRight_toRightOf="@id/cpuNote1"
         app:layout_constraintBottom_toTopOf="@id/cpuNote1"/>
