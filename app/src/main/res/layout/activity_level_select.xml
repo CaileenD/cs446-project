@@ -314,7 +314,7 @@
         app:srcCompat="@drawable/empty_star" />
 
     <ImageView
-        android:id="@+id/level2EmptyStar1"
+        android:id="@+id/level2EmptyStar3"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginTop="8dp"
@@ -334,7 +334,7 @@
         app:srcCompat="@drawable/empty_star" />
 
     <ImageView
-        android:id="@+id/level2EmptyStar3"
+        android:id="@+id/level2EmptyStar1"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginTop="8dp"

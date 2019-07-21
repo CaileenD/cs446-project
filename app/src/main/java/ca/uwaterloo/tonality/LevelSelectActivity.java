@@ -1,7 +1,6 @@
 package ca.uwaterloo.tonality;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,13 +11,15 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LevelSelectActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     String selectedScale = "C Major"; // default value
     private TextView points;
-    private ImageView star1;
-    private ImageView star2;
-    private ImageView star3;
+    private List<ImageView> stars;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,27 +40,9 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
 
         loadPoints();
 
-        star1 = findViewById(R.id.level1EmptyStar1);
-        star2 = findViewById(R.id.level1EmptyStar2);
-        star3 = findViewById(R.id.level1EmptyStar3);
+        stars = loadImageViews();
 
-        try{
-            if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 1){
-                star1.setImageResource(R.drawable.filled_star);
-            }
-            else if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 2){
-                star1.setImageResource(R.drawable.filled_star);
-                star2.setImageResource(R.drawable.filled_star);
-            }
-            else if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 3){
-                star1.setImageResource(R.drawable.filled_star);
-                star2.setImageResource(R.drawable.filled_star);
-                star3.setImageResource(R.drawable.filled_star);
-            }
-        }
-        catch (RuntimeException e){
-
-        }
+        setStars();
 
     }
 
@@ -105,32 +88,8 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
         String scale = adapterView.getItemAtPosition(i).toString();
         selectedScale = scale;
         loadAllLevelImage();
+        setStars();
 
-        try{
-            if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "1") == 1){
-                star1.setImageResource(R.drawable.filled_star);
-                star2.setImageResource(R.drawable.empty_star);
-                star3.setImageResource(R.drawable.empty_star);
-            }
-            else if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 2){
-                star1.setImageResource(R.drawable.filled_star);
-                star2.setImageResource(R.drawable.filled_star);
-                star3.setImageResource(R.drawable.empty_star);
-            }
-            else if (LevelStorage.getInstance().getStarsForLevel(selectedScale, "2") == 3){
-                star1.setImageResource(R.drawable.filled_star);
-                star2.setImageResource(R.drawable.filled_star);
-                star3.setImageResource(R.drawable.filled_star);
-            }
-            else{
-                star1.setImageResource(R.drawable.empty_star);
-                star2.setImageResource(R.drawable.empty_star);
-                star3.setImageResource(R.drawable.empty_star);
-            }
-        }
-        catch (RuntimeException e){
-
-        }
     }
 
     @Override
@@ -160,5 +119,68 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
                 loadPoints();
             }
         }
+    }
+
+    private List<ImageView> loadImageViews(){
+        List<ImageView> stars = new ArrayList<>();
+
+        stars.add((ImageView)findViewById(R.id.level1EmptyStar1));
+        stars.add((ImageView)findViewById(R.id.level1EmptyStar2));
+        stars.add((ImageView)findViewById(R.id.level1EmptyStar3));
+
+        stars.add((ImageView)findViewById(R.id.level2EmptyStar1));
+        stars.add((ImageView)findViewById(R.id.level2EmptyStar2));
+        stars.add((ImageView)findViewById(R.id.level2EmptyStar3));
+
+        stars.add((ImageView)findViewById(R.id.level3EmptyStar1));
+        stars.add((ImageView)findViewById(R.id.level3EmptyStar2));
+        stars.add((ImageView)findViewById(R.id.level3EmptyStar3));
+
+        stars.add((ImageView)findViewById(R.id.level4EmptyStar1));
+        stars.add((ImageView)findViewById(R.id.level4EmptyStar2));
+        stars.add((ImageView)findViewById(R.id.level4EmptyStar3));
+
+        stars.add((ImageView)findViewById(R.id.level5EmptyStar1));
+        stars.add((ImageView)findViewById(R.id.level5EmptyStar2));
+        stars.add((ImageView)findViewById(R.id.level5EmptyStar3));
+
+        stars.add((ImageView)findViewById(R.id.level6EmptyStar1));
+        stars.add((ImageView)findViewById(R.id.level6EmptyStar2));
+        stars.add((ImageView)findViewById(R.id.level6EmptyStar3));
+
+        return stars;
+    }
+
+    private void setStars(){
+
+        for (int i = 0; i < stars.size(); i += 3){
+            String level = Integer.toString((i / 3) + 2);
+            try{
+                if (LevelStorage.getInstance().getStarsForLevel(selectedScale, level) == 1){
+                    stars.get(i).setImageResource(R.drawable.filled_star);
+                    stars.get(i + 1).setImageResource(R.drawable.empty_star);
+                    stars.get(i + 2).setImageResource(R.drawable.empty_star);
+                }
+                else if (LevelStorage.getInstance().getStarsForLevel(selectedScale, level) == 2){
+                    stars.get(i).setImageResource(R.drawable.filled_star);
+                    stars.get(i + 1).setImageResource(R.drawable.filled_star);
+                    stars.get(i + 2).setImageResource(R.drawable.empty_star);
+                }
+                else if (LevelStorage.getInstance().getStarsForLevel(selectedScale, level) == 3){
+                    stars.get(i).setImageResource(R.drawable.filled_star);
+                    stars.get(i + 1).setImageResource(R.drawable.filled_star);
+                    stars.get(i + 2).setImageResource(R.drawable.filled_star);
+                }
+                else{
+                    stars.get(i).setImageResource(R.drawable.empty_star);
+                    stars.get(i + 1).setImageResource(R.drawable.empty_star);
+                    stars.get(i + 2).setImageResource(R.drawable.empty_star);
+                }
+            }
+            catch (RuntimeException e){
+
+            }
+        }
+
     }
 }
