@@ -57,7 +57,7 @@
     <string name="game_over">Game Over!</string>
     <string name="win">Level Passed!</string>
     <string name="tryagain">Try Again</string>
-    <string name="next">Next Level</string>
+    <string name="next">Replay Level</string>
     <string name="levelSelect">Home</string>
 
 </resources>
