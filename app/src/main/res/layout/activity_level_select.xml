@@ -539,17 +539,11 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="125dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:text="POINTS"
         android:textColor="@color/main_pink"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/level6EmptyStar3"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/levelNote5"
+        app:layout_constraintLeft_toLeftOf="@id/points"
+        app:layout_constraintRight_toRightOf="@id/points"
+        app:layout_constraintBottom_toTopOf="@id/points"
         app:layout_constraintVertical_bias="0.434" />
 
     <TextView
