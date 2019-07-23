@@ -120,10 +120,12 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
                 if (v.getText().toString().trim().length() == 0) {
                     v.setText(String.valueOf(levelDifficulty + 1));
                 } else {
-                    //purchase level if possible, otherwise do nothing
+                    //purchase level if enough points and previous level unlocked
                     long points = PointStorage.getInstance().getScore();
+                    boolean prevUnlocked = PointStorage.getInstance().load(selectedScale, String.valueOf(levelDifficulty - 1));
 
-                    if (levelDifficulty + 1 <= points) { //unlock level
+
+                    if (levelDifficulty + 1 <= points && prevUnlocked) { //unlock level
                         PointStorage.getInstance().store(selectedScale, String.valueOf(levelDifficulty), true);
                         PointStorage.getInstance().incrementScore(-(levelDifficulty+1));
 
