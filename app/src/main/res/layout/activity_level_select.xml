@@ -5,6 +5,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/bg_repeat"
+    android:screenOrientation="portrait"
+    android:configChanges="keyboardHidden|orientation|screenSize"
     tools:context=".LevelSelectActivity">
 
     <TextView
@@ -54,7 +56,7 @@
         tools:visibility="visible" />
 
     <ImageView
-        android:id="@+id/line1"
+        android:id="@+id/line2"
         android:layout_width="174dp"
         android:layout_height="129dp"
         android:layout_marginStart="8dp"
@@ -69,7 +71,7 @@
         app:srcCompat="@drawable/level_line" />
 
     <ImageView
-        android:id="@+id/line2"
+        android:id="@+id/line3"
         android:layout_width="223dp"
         android:layout_height="147dp"
         android:layout_marginStart="8dp"
@@ -84,7 +86,7 @@
         app:srcCompat="@drawable/level_line" />
 
     <ImageView
-        android:id="@+id/line3"
+        android:id="@+id/line4"
         android:layout_width="174dp"
         android:layout_height="129dp"
         android:layout_marginStart="8dp"
@@ -98,7 +100,7 @@
         app:srcCompat="@drawable/level_line" />
 
     <ImageView
-        android:id="@+id/line4"
+        android:id="@+id/line5"
         android:layout_width="227dp"
         android:layout_height="149dp"
         android:layout_marginStart="8dp"
@@ -113,7 +115,7 @@
         app:srcCompat="@drawable/level_line" />
 
     <ImageView
-        android:id="@+id/line5"
+        android:id="@+id/line6"
         android:layout_width="180dp"
         android:layout_height="134dp"
         android:layout_marginStart="8dp"
@@ -549,5 +551,71 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/levelNote5"
         app:layout_constraintVertical_bias="0.434" />
+
+    <TextView
+        android:id="@+id/levelCost1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/main_pink"
+        android:paddingBottom="3dp"
+        app:layout_constraintLeft_toLeftOf="@id/levelBubble1"
+        app:layout_constraintRight_toRightOf="@id/levelBubble1"
+        app:layout_constraintBottom_toTopOf="@id/levelBubble1" />
+
+    <TextView
+        android:id="@+id/levelCost2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/main_pink"
+        android:paddingBottom="3dp"
+        app:layout_constraintLeft_toLeftOf="@id/levelBubble2"
+        app:layout_constraintRight_toRightOf="@id/levelBubble2"
+        app:layout_constraintBottom_toTopOf="@id/levelBubble2" />
+
+    <TextView
+        android:id="@+id/levelCost3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/main_pink"
+        android:paddingBottom="3dp"
+        app:layout_constraintLeft_toLeftOf="@id/levelBubble3"
+        app:layout_constraintRight_toRightOf="@id/levelBubble3"
+        app:layout_constraintBottom_toTopOf="@id/levelBubble3" />
+
+    <TextView
+        android:id="@+id/levelCost4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/main_pink"
+        android:paddingBottom="3dp"
+        app:layout_constraintLeft_toLeftOf="@id/levelBubble4"
+        app:layout_constraintRight_toRightOf="@id/levelBubble4"
+        app:layout_constraintBottom_toTopOf="@id/levelBubble4" />
+
+    <TextView
+        android:id="@+id/levelCost5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/main_pink"
+        android:paddingBottom="3dp"
+        app:layout_constraintLeft_toLeftOf="@id/levelBubble5"
+        app:layout_constraintRight_toRightOf="@id/levelBubble5"
+        app:layout_constraintBottom_toTopOf="@id/levelBubble5" />
+
+    <TextView
+        android:id="@+id/levelCost6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/main_pink"
+        android:paddingBottom="3dp"
+        app:layout_constraintLeft_toLeftOf="@id/levelBubble6"
+        app:layout_constraintRight_toRightOf="@id/levelBubble6"
+        app:layout_constraintBottom_toTopOf="@id/levelBubble6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

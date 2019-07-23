@@ -1,6 +1,7 @@
 package ca.uwaterloo.tonality;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,12 +20,15 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
     String selectedScale = "C Major"; // default value
     private TextView points;
     private List<ImageView> stars;
+    private List<TextView> levelCosts;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_select);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // locks screen in portrait
+        levelCosts = new ArrayList<>();
 
         LevelStorage.init(getApplicationContext());
 
@@ -38,12 +42,19 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
+        loadLevelCosts();
         loadPoints();
-
         stars = loadImageViews();
-
         setStars();
+    }
 
+    private void loadLevelCosts() {
+        for (int i = 1; i <= 6; ++i) {
+            String id = "levelCost" + i;
+            int resID = getResources().getIdentifier(id, "id", getPackageName());
+            TextView v = findViewById(resID);
+            levelCosts.add(v);
+        }
     }
 
     private void loadPoints() {
@@ -68,33 +79,62 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
     private void loadLevelImage(int level) {
         int bubbleId = getResources().getIdentifier("levelBubble" + (level), "id", getPackageName());
         int noteId = getResources().getIdentifier("levelNote" + (level), "id", getPackageName());
-
+        int lineId = getResources().getIdentifier("line" + (level), "id", getPackageName());
         ImageView levelBubble = findViewById(bubbleId);
         ImageView levelNote = findViewById(noteId);
+        ImageView lineConnector = findViewById(lineId);
         int unlocked = PointStorage.getInstance().load(selectedScale, String.valueOf(level) )? 1 : 0;
 
         levelBubble.setAlpha((float) Math.max(0.5, unlocked));
         levelNote.setAlpha((float) Math.max(0.5, unlocked));
-        if (level != 1) {
-            if (level == 6) level--;
-            int lineId = getResources().getIdentifier("line" + (level-1), "id", getPackageName());
-            ImageView lineConnector = findViewById(lineId);
-            lineConnector.setAlpha((float) Math.max(0.05, unlocked));
-        }
+        if (level != 1) lineConnector.setAlpha((float) Math.max(0.05, unlocked));
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String scale = adapterView.getItemAtPosition(i).toString();
         selectedScale = scale;
+        resetCosts();
         loadAllLevelImage();
         setStars();
-
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    private void resetCosts() {
+      for (TextView v : levelCosts)  {
+          v.setText("");
+      }
+    }
+
+    private void showCost(final int levelDifficulty) {
+        for(int i = 0; i < levelCosts.size(); ++i) {
+            TextView v = levelCosts.get(i);
+            if (levelDifficulty != i + 1) {
+                v.setText("");
+            } else {
+                // if cost is already showing, purchase else display cost
+                if (v.getText().toString().trim().length() == 0) {
+                    v.setText(String.valueOf(levelDifficulty + 1));
+                } else {
+                    //purchase level if possible, otherwise do nothing
+                    long points = PointStorage.getInstance().getScore();
+
+                    if (levelDifficulty + 1 <= points) { //unlock level
+                        PointStorage.getInstance().store(selectedScale, String.valueOf(levelDifficulty), true);
+                        PointStorage.getInstance().incrementScore(-(levelDifficulty+1));
+
+                        // change alpha of level
+                        loadLevelImage(levelDifficulty);
+                        loadPoints();
+                        resetCosts();
+                    }
+                }
+            }
+        }
     }
 
     public void onLevelClick(View view) {
@@ -108,16 +148,7 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
             intent.putExtra("levelDifficulty", levelDifficulty + 1);
             startActivity(intent);
         } else {
-            long points = PointStorage.getInstance().getScore();
-
-            if ((levelDifficulty + 1) <= points) { //unlock level
-                PointStorage.getInstance().store(selectedScale, String.valueOf(levelDifficulty), true);
-                PointStorage.getInstance().incrementScore(-(levelDifficulty+1));
-
-                // change alpha of level
-                loadLevelImage(levelDifficulty);
-                loadPoints();
-            }
+            showCost(levelDifficulty);
         }
     }
 
@@ -152,7 +183,6 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
     }
 
     private void setStars(){
-
         for (int i = 0; i < stars.size(); i += 3){
             String level = Integer.toString((i / 3) + 2);
             try{
